@@ -147,3 +147,25 @@ O que é criado dentro de uma função somente está disponível dentro dela
 ### Escopo de Bloco
 
 O que é criado dentro de um bloco somente está disponível dentro dele {}
+
+## 7 - Expression vs Statement
+
+Expression é um trecho de código que retorna apenas um valor único.
+
+```javascript
+console.log(1 + 1) // expression
+console.log(Math.randon() + 5) // expression
+function expressao() {  // expression
+    return 1+1
+}
+```
+
+Statement são trechos de código que performão uma ação, que fazem algo.
+
+```javascript
+var variavel = 20
+
+if(true){
+    variavel = 30
+}
+```
