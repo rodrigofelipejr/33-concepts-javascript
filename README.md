@@ -53,3 +53,23 @@ console.log(quinze) // 15
 console.log(typeof doze) // "object"
 console.log(typeof quinze) // "number"
 ```
+
+## 3 - Tipo de Valores e de referência (Value Types and Reference Types)
+
+Os tipos primitivos são de valor, já um array, object ou uma function são de referência.
+
+```javascript
+var x = 10
+var y = x /* y recebeu valor */
+
+x = 20
+console.log(x, y) // x = 20 y = 10
+
+var a = { valor: 10 }
+var b = a /* a recebeu uma referência */
+
+a.valor = 20
+
+console.log(a) // { valor: 20 }
+console.log(a) // { valor: 20 }
+```
