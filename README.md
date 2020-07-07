@@ -116,3 +116,34 @@ console.log(String('50')) // "50" > string
 
 - sem coerção
 - é levado em consideração os tipos e o valor
+
+## 6 - Escopo da Função, Escopo do Bloco e Escopo Léxico (Function Scope, Block Scope and Lexical Scope)
+
+- var, let e const
+
+```javascript
+var nome = 'Rodrigo' // escopo global
+
+function teste(){
+    var sobreNome = 'Plácido' // escopo local (da função)
+    if(sobrenome === 'Sobrenome'){
+        const valor = 10 // disponível somente dentro deste bloco
+    }
+
+    console.log(valor) // error - valor is not defined
+}
+
+// let e const respeitam o escopo de bloco {}
+```
+
+### Escopo Léxico
+
+Em um cenário onde temos funções aninhadas (funções dentro de funções), os recursos e variáveis disponíveis nas funções mais acima, estão disponíveis para as funções que se encontram mais a dentro.
+
+### Escopo de Função
+
+O que é criado dentro de uma função somente está disponível dentro dela
+
+### Escopo de Bloco
+
+O que é criado dentro de um bloco somente está disponível dentro dele {}
