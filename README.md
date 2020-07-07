@@ -97,4 +97,22 @@ console.log(Number('50')) // 50 > number
 console.log(String('50')) // "50" > string
 
 // DUCK TYPING
+
 ```
+
+## 5 - == vs === vs typeof
+
+### `==` (sinal de dois iguais)
+
+- utiliza coerção por tráz
+- 1º se ambos são do mesmo tipo
+- null == undefined, se for, ele retorna true
+- number == string, se for, ele converte string em number
+- boolean == number se for, ele converte boolean em number
+- boolean == string, se for, ele converte a string em boolean
+- object == primitivo, se for, ele converte o object em string
+
+### `===` (sinal de três iguais)
+
+- sem coerção
+- é levado em consideração os tipos e o valor
