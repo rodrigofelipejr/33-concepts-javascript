@@ -29,3 +29,27 @@ Saída:
 "Performed function 2"
 "Performed function 1"
 ```
+
+## 2 - Tipos Primitivos (Primitive Types)
+
+São eles: Boolean, String, Number, Null, Undefined, Symbol.
+
+Não possuem propriedades, mais os construtores dos tipos primitivos (boolean, string e o number), retorna um objeto com todos os métodos para manipulação.
+
+```javascript
+console.log(typeof true) // "boolean"
+console.log(typeof Boolean(true)) // "boolean"
+console.log(typeof new Boolean(true)) // "object"
+console.log(typeof (new Boolean(true)).valueOf()) // "boolean"
+console.log(typeof 'Rodrigo') // "string"
+console.log(typeof 28) // "number"
+
+console.log('Rodrigo'.length) // 7
+
+var doze = new Number(12) // object
+var quinze = doze + 3
+
+console.log(quinze) // 15
+console.log(typeof doze) // "object"
+console.log(typeof quinze) // "number"
+```
