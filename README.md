@@ -73,3 +73,28 @@ a.valor = 20
 console.log(a) // { valor: 20 }
 console.log(a) // { valor: 20 }
 ```
+
+## 4 - Implícito, Explicito, Nominal, Estruturando e Chamada de métodos (Implicit, Explicit, Nominal, Structuring and Duck Typing)
+
+A coerção ocorre quanto o javascript tenta converter o tipo de uma valor para um tipo esperado, essa conversão pode ocorrer para ```string```, ```number``` ou ```boolean```.
+
+```javascript
+console.log('5'- 5) // 0
+console.log('5'+ 5) // "55"
+console.log(true + 1) // 2
+console.log(true + true) // 2
+console.log([] + {}) // [Object Object]
+console.log([] + []) // ""
+
+// IMPLÍCITO
+console.log(+'5') // 5 > number
+console.log('5' + '') // "5" > string
+console.log(123 && 'oi') // "oi" > string
+console.log(null || true) // true boolean
+
+// EXPLICITO (mais legível)
+console.log(Number('50')) // 50 > number
+console.log(String('50')) // "50" > string
+
+// DUCK TYPING
+```
