@@ -169,3 +169,42 @@ if(true){
     variavel = 30
 }
 ```
+
+## IIFE, Modules e Namespaces
+
+### IIFE e Namespaces
+
+Expressão de função invocada imediatamente, (immediately invoked function expression, ou IIFE).
+É executada automaticamente quando lida, quando o interpretador passa por ela.
+
+Formas de declarar uma IFEE:
+
+```javascript
+!function(){  // anônima
+    alert('olá mundo')
+}()
+
+(function(){ // anônima
+    alert('Olá')
+}())
+
+!function teste(){ // nomeada, não anônima
+    alert('olá mundo')
+}()
+
+/* o "!" indica que deve ser tratada com uma expressão e não uma function */
+```
+
+O namespace organiza o código em pequenos grupos, impedindo que haja a colizão com outros métodos de outras libs.
+
+```javascript
+const dados = (function(){ // dados é namespace
+var contador = 0 // private - escopo de bloco
+return{
+    incrementar: fucntion(){ // método
+        contador += 1
+        return contador
+    }
+}
+}()) // executada imediatamente
+```
