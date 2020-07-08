@@ -215,8 +215,9 @@ Os modules promovem a reutilização de código, possibilitando a trocar funcion
 
 Facilita a manutenção, além de permitir um maior encapsulamento e abstração do código.
 
+#### script1.js
+
 ```javascript
-// script 1
 const valor = 5
 
 const olaMundo = function(){
@@ -229,8 +230,11 @@ const multiplica = function(num){
 
 // export {olaMundo, multiplica}
 export default olaMundo // vai chegar lá como uma função anônima
+```
 
-// script 2
+#### script2.js
+
+```javascript
 import {olaMundo as helloWorld, multiplica} from './script1.js'
 helloWorld()
 multiplica(2);
@@ -271,4 +275,57 @@ loopEventos()
     "e" ??
     "d" << callback
 */
+```
+
+## SetTimeout, SetInterval e RequestAnimationFrame
+
+O método setTimeout() define um timer que executa uma função ou trechos de código quando o timer expirar.
+
+```javascript
+// option 1
+setTimout(() => {
+    console.log('Set Timeout')
+}, 2000)
+
+// option 2
+const print = (nome) => {
+    console.log(`Set Timeout ${nome}`)
+}
+
+// os parâmetros para a function vem depois do tempo
+const timeout = setTimout(print, 2000, 'Rodrigo', a, b, c...) 
+
+setTimout(() => {
+    clearTimeout(timeout) // cancela o setTimeout
+}, 1000)
+```
+
+O método setInterval(), repetem chamadas de funções or executam trechos de código, com um tempo de espera fixo entre cada chamada. Isso retorna um ID único para o intervalo, podendo remove-lo mais tarde apenas o chamando clearInterval().
+
+```javascript
+const interval = setInterval(() => {
+    console.log('teste')
+}, 1000)
+
+setTimout(() => {
+    clearInterval(interval) // cancela o setInterval
+}, 5000)
+```
+
+O método window.requestAnimationFrame() fala para o navegador que deseja-se realizar uma animação e pede que o navegador chame uma função específica para atualizar um quadro de animação antes da próxima repaint (repintura). O método tem como argumento uma callback que deve ser invocado antes da repaint.
+
+```javascript
+let contador = 0
+
+function animation(){
+    contador += 1
+    console.log(contador)
+    loop = requestAnimationFrame(animation)
+}
+
+var loop = requestAnimationFrame(animation)
+
+setTimout(() => {
+    cancelAnimationFrame(animation) // cancela o requestAnimationFrame
+}, 5000)
 ```
