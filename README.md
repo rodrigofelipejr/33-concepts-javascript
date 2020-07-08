@@ -208,3 +208,38 @@ return{
 }
 }()) // executada imediatamente
 ```
+
+## Modules
+
+Os modules promovem a reutilização de código, possibilitando a trocar funcionalidades entre arquivos destintos (export/import).
+
+Facilita a manutenção, além de permitir um maior encapsulamento e abstração do código.
+
+```javascript
+// script 1
+const valor = 5
+
+const olaMundo = function(){
+    alert('Olá mundo!')
+}
+
+const multiplica = function(num){
+    alert(num*5)
+}
+
+// export {olaMundo, multiplica}
+export default olaMundo // vai chegar lá como uma função anônima
+
+// script 2
+import {olaMundo as helloWorld, multiplica} from './script1.js'
+helloWorld()
+multiplica(2);
+
+// script 2 
+import * as utilitarios from './script1.js'
+utilitarios.multiplica(4)
+
+// script 2 > se foi exportado com default podemos dar qualquer nome
+import utilitarios from './script1.js'
+utilitarios() // está executando o olaMundo exportado como default no script1
+```
