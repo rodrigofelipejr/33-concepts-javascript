@@ -243,3 +243,32 @@ utilitarios.multiplica(4)
 import utilitarios from './script1.js'
 utilitarios() // está executando o olaMundo exportado como default no script1
 ```
+
+## Message Queue e Event Loop - Fila de eventos e Pilha de eventos
+
+```javascript
+function loopEventos(){
+    console.log('a')
+    for(let i = 1; i <= 4; i++){
+        console.log('b - ' + i)
+    }
+    console.log('c')
+    setTimeout(() => {
+    console.log('d')
+    }, 0)
+    console.log('e')
+}
+
+loopEventos()
+
+/*
+    saída: 
+    "a"
+    "b - 1"
+    "b - 2"
+    "b - 3"
+    "c"
+    "e" ??
+    "d" << callback
+*/
+```
