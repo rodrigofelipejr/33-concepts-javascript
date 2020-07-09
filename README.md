@@ -4,40 +4,40 @@
 
 A pilha de chamadas (call stack) é um mecanismo do interpretador de uma linguagem que organiza o funcionamento do script quando são chamadas muitas funções, qual função está sendo executada no momento, e quais serão chamadas dentro de alguma função, etc.
 
- - Quando o script chama a função, ela é adicionada à pilha de chamadas, e então é iniciado o carregamento da função.
+- Quando o script chama a função, ela é adicionada à pilha de chamadas, e então é iniciado o carregamento da função.
 
- - Qualquer função chamada por essa função será adicionada à pilha de chamadas uma acima da outra.
- 
- - Quando a função termina a execução, o interpretador retira a função da pilha e continua a execução do programa de onde parou.
- 
- - Caso a pilha ocupar mais espaço do que foi separado a ela, será exibido um erro "stack overflow" (estouro de pilha).
+- Qualquer função chamada por essa função será adicionada à pilha de chamadas uma acima da outra.
+
+- Quando a função termina a execução, o interpretador retira a função da pilha e continua a execução do programa de onde parou.
+
+- Caso a pilha ocupar mais espaço do que foi separado a ela, será exibido um erro "stack overflow" (estouro de pilha).
 
 > Conceito de LIFO (last in first out).
 
 ```javascript
-function function1(){
-    function2()
-    console.log('Performed function 1')
+function function1() {
+  function2();
+  console.log("Performed function 1");
 }
 
-function function1(){
-    function3()
-    console.log('Performed function 2')
+function function1() {
+  function3();
+  console.log("Performed function 2");
 }
 
-function function3(){
-    console.log('Performed function')
+function function3() {
+  console.log("Performed function");
 }
 
-function1()
+function1();
 ```
 
 Saída:
 
 ```javascript
-"Performed function 3"
-"Performed function 2"
-"Performed function 1"
+"Performed function 3";
+"Performed function 2";
+"Performed function 1";
 ```
 
 ## 2 - Tipos Primitivos (Primitive Types)
@@ -58,21 +58,21 @@ Todos os primitivos são imutáveis (não podem ter o seu valor modificado).
 Não possuem propriedades, mais os construtores dos tipos primitivos (boolean, string e o number), retorna um objeto com todos os métodos para manipulação.
 
 ```javascript
-console.log(typeof true) // "boolean"
-console.log(typeof Boolean(true)) // "boolean"
-console.log(typeof new Boolean(true)) // "object"
-console.log(typeof (new Boolean(true)).valueOf()) // "boolean"
-console.log(typeof 'Rodrigo') // "string"
-console.log(typeof 28) // "number"
+console.log(typeof true); // "boolean"
+console.log(typeof Boolean(true)); // "boolean"
+console.log(typeof new Boolean(true)); // "object"
+console.log(typeof new Boolean(true).valueOf()); // "boolean"
+console.log(typeof "Rodrigo"); // "string"
+console.log(typeof 28); // "number"
 
-console.log('Rodrigo'.length) // 7
+console.log("Rodrigo".length); // 7
 
-var doze = new Number(12) // object
-var quinze = doze + 3
+var doze = new Number(12); // object
+var quinze = doze + 3;
 
-console.log(quinze) // 15
-console.log(typeof doze) // "object"
-console.log(typeof quinze) // "number"
+console.log(quinze); // 15
+console.log(typeof doze); // "object"
+console.log(typeof quinze); // "number"
 ```
 
 ## 3 - Tipo de Valores e de referência (Value Types and Reference Types)
@@ -86,51 +86,51 @@ Se o valor for um valor primitivo, ao acessar a variável, você manipula o valo
 Ao contrário de um valor primitivo, quando você manipula um objeto, trabalha na referência desse objeto, e não no objeto real. Significa que uma variável que armazena um objeto é acessada por referência .
 
 ```javascript
-var x = 10
-var y = x /* y recebeu valor */
+var x = 10;
+var y = x; /* y recebeu valor */
 
-x = 20
-console.log(x, y) // x = 20 y = 10
+x = 20;
+console.log(x, y); // x = 20 y = 10
 
-var a = { valor: 10 }
-var b = a /* a recebeu uma referência */
+var a = { valor: 10 };
+var b = a; /* a recebeu uma referência */
 
-a.valor = 20
+a.valor = 20;
 
-console.log(a) // { valor: 20 }
-console.log(a) // { valor: 20 }
+console.log(a); // { valor: 20 }
+console.log(a); // { valor: 20 }
 ```
 
 ## 4 - Implícito, Explicito, Nominal, Estruturando e Chamada de métodos (Implicit, Explicit, Nominal, Structuring and Duck Typing)
 
-A coerção ocorre quanto o javascript tenta converter o tipo de uma valor para um tipo esperado, essa conversão pode ocorrer para ```string```, ```number``` ou ```boolean```.
+A coerção ocorre quanto o javascript tenta converter o tipo de uma valor para um tipo esperado, essa conversão pode ocorrer para `string`, `number` ou `boolean`.
 
 Coerção de tipo é a conversão automática ou implícita de valores de um tipo de dados para outro (como seqüências de caracteres em números). A conversão de tipos é semelhante à coerção de tipos porque ambos convertem valores de um tipo de dados para outro com uma diferença-chave - a coerção de tipos é implícita, enquanto a conversão de tipos pode ser implícita ou explícita.
 
 ```javascript
-console.log('5'- 5) // 0
-console.log('5'+ 5) // "55"
-console.log(true + 1) // 2
-console.log(true + true) // 2
-console.log([] + {}) // [Object Object]
-console.log([] + []) // ""
+console.log("5" - 5); // 0
+console.log("5" + 5); // "55"
+console.log(true + 1); // 2
+console.log(true + true); // 2
+console.log([] + {}); // [Object Object]
+console.log([] + []); // ""
 
 // IMPLÍCITO
-console.log(+'5') // 5 > number
-console.log('5' + '') // "5" > string
-console.log(123 && 'oi') // "oi" > string
-console.log(null || true) // true boolean
+console.log(+"5"); // 5 > number
+console.log("5" + ""); // "5" > string
+console.log(123 && "oi"); // "oi" > string
+console.log(null || true); // true boolean
 
 // EXPLÍCITO (mais legível)
-console.log(Number('50')) // 50 > number
-console.log(String('50')) // "50" > string
+console.log(Number("50")); // 50 > number
+console.log(String("50")); // "50" > string
 ```
 
 ## 5 - == vs === vs typeof
 
-O JavaScript possui comparações estritas e conversão de tipos. Uma comparação estrita `(===)` somente é verdade se os operandos forem do mesmo tipo e de conteúdo correspondente. 
+O JavaScript possui comparações estritas e conversão de tipos. Uma comparação estrita `(===)` somente é verdade se os operandos forem do mesmo tipo e de conteúdo correspondente.
 
-A comparação abstrata mais comumente utilizada `(==)` converte os operandos no mesmo tipo antes da comparação. 
+A comparação abstrata mais comumente utilizada `(==)` converte os operandos no mesmo tipo antes da comparação.
 
 Para comparações abstratas relacionais `(<=)`, os operandos são primeiro convertidos em primitivos, depois para o mesmo tipo, depois comparados.
 
@@ -158,15 +158,15 @@ As variáveis ​​que você declara fora das funções também são atribuidas
 - var, let e const
 
 ```javascript
-var nome = 'Rodrigo' // escopo global
+var nome = "Rodrigo"; // escopo global
 
-function teste(){
-    var sobreNome = 'Plácido' // escopo local (da função)
-    if(sobrenome === 'Sobrenome'){
-        const valor = 10 // disponível somente dentro deste bloco
-    }
+function teste() {
+  var sobreNome = "Plácido"; // escopo local (da função)
+  if (sobrenome === "Sobrenome") {
+    const valor = 10; // disponível somente dentro deste bloco
+  }
 
-    console.log(valor) // error - valor is not defined
+  console.log(valor); // error - valor is not defined
 }
 
 // let e const respeitam o escopo de bloco {}
@@ -195,24 +195,25 @@ A expressão `x = 7` é um exemplo do primeiro tipo. Esta expressão usa o opera
 O código `3 + 4` é um exemplo do segundo tipo de expressão. Essa expressão usa o operador + para adicionar três e quatro juntos sem atribuir o resultado, sete a uma variável.
 
 ```javascript
-console.log(1 + 1) // expression
-console.log(Math.randon() + 5) // expression
-function expressao() {  // expression
-    return 1 + 1
+console.log(1 + 1); // expression
+console.log(Math.randon() + 5); // expression
+function expressao() {
+  // expression
+  return 1 + 1;
 }
 ```
 
 Statement são trechos de código que performão uma ação, que fazem algo.
 
-Uma declaração executa uma ação, loops e if são exemplos de declarações. Onde o JavaScript espera uma declaração, você também pode escrever uma expressão. O inverso não se aplica: você não pode escrever uma declaração em que o JavaScript espera uma expressão. 
+Uma declaração executa uma ação, loops e if são exemplos de declarações. Onde o JavaScript espera uma declaração, você também pode escrever uma expressão. O inverso não se aplica: você não pode escrever uma declaração em que o JavaScript espera uma expressão.
 
 Por exemplo, uma instrução if não pode se tornar o argumento de uma função.
 
 ```javascript
-var variavel = 20 
+var variavel = 20;
 
-if(true){
-    variavel = 30 
+if (true) {
+  variavel = 30;
 }
 ```
 
@@ -226,18 +227,22 @@ Expressão de função invocada imediatamente, (immediately invoked function exp
 Formas de declarar uma IFEE:
 
 ```javascript
-!function(){  // anônima
-    alert('olá mundo')
-}()
+!(function () {
+  // anônima
+  alert("olá mundo");
+})()(
+  (function () {
+    // anônima
+    alert("Olá");
+  })()
+);
 
-(function(){ // anônima
-    alert('Olá')
-}())
-
-!function teste(){ // nomeada, não anônima
-    alert('olá mundo')
-}()
+!(function teste() {
+  // nomeada, não anônima
+  alert("olá mundo");
+})();
 ```
+
 > O "!" indica que deve ser tratada com uma expressão e não uma function
 
 ### Namespaces
@@ -265,64 +270,63 @@ Facilita a manutenção, além de permitir um maior encapsulamento e abstração
 #### script1.js
 
 ```javascript
-const valor = 5
+const valor = 5;
 
-const olaMundo = function(){
-    alert('Olá mundo!')
-}
+const olaMundo = function () {
+  alert("Olá mundo!");
+};
 
-const multiplica = function(num){
-    alert(num*5)
-}
+const multiplica = function (num) {
+  alert(num * 5);
+};
 
 // export {olaMundo, multiplica}
-export default olaMundo // vai chegar lá como uma função anônima
+export default olaMundo; // vai chegar lá como uma função anônima
 ```
 
 #### script2.js
 
 ```javascript
-import {olaMundo as helloWorld, multiplica} from './script1.js'
-helloWorld()
+import { olaMundo as helloWorld, multiplica } from "./script1.js";
+helloWorld();
 multiplica(2);
 
-// script 2 
-import * as utilitarios from './script1.js'
-utilitarios.multiplica(4)
+// script 2
+import * as utilitarios from "./script1.js";
+utilitarios.multiplica(4);
 
 // script 2 > se foi exportado com default podemos dar qualquer nome
-import utilitarios from './script1.js'
-utilitarios() // está executando o olaMundo exportado como default no script1
+import utilitarios from "./script1.js";
+utilitarios(); // está executando o olaMundo exportado como default no script1
 ```
 
 ## Message Queue e Event Loop - Fila de eventos e Pilha de eventos
 
 ```javascript
-function loopEventos(){
-    console.log('a')
-    for(let i = 1; i <= 4; i++){
-        console.log('b - ' + i)
-    }
-    console.log('c')
-    setTimeout(() => {
-    console.log('d')
-    }, 0)
-    console.log('e')
+function loopEventos() {
+  console.log("a");
+  for (let i = 1; i <= 4; i++) {
+    console.log("b - " + i);
+  }
+  console.log("c");
+  setTimeout(() => {
+    console.log("d");
+  }, 0);
+  console.log("e");
 }
 
-loopEventos()
+loopEventos();
 ```
 
 Saída:
 
 ```javascript
-"a"
-"b - 1"
-"b - 2"
-"b - 3"
-"c"
-"e" ??
-"d" << callback
+"a";
+"b - 1";
+"b - 2";
+"b - 3";
+"c";
+"e" ?? "d" << callback;
 ```
 
 ## settimeout, setinterval e requestanimationframe
@@ -343,7 +347,7 @@ const print = (nome) => {
 }
 
 // os parâmetros para a function vem depois do tempo
-const timeout = setTimout(print, 2000, 'Rodrigo', a, b, c...) 
+const timeout = setTimout(print, 2000, 'Rodrigo', a, b, c...)
 
 setTimout(() => {
     clearTimeout(timeout) // cancela o setTimeout
@@ -356,12 +360,12 @@ O método setInterval(), repetem chamadas de funções or executam trechos de c�
 
 ```javascript
 const interval = setInterval(() => {
-    console.log('teste')
-}, 1000)
+  console.log("teste");
+}, 1000);
 
 setTimout(() => {
-    clearInterval(interval) // cancela o setInterval
-}, 5000)
+  clearInterval(interval); // cancela o setInterval
+}, 5000);
 ```
 
 ### RequestAnimationFrame
@@ -369,27 +373,28 @@ setTimout(() => {
 O método requestAnimationFrame() fala para o navegador que deseja-se realizar uma animação e pede que o navegador chame uma função específica para atualizar um quadro de animação antes da próxima repaint (repintura). O método tem como argumento uma callback que deve ser invocado antes da repaint.
 
 ```javascript
-let contador = 0
+let contador = 0;
 
-function animation(){
-    contador += 1
-    console.log(contador)
-    loop = requestAnimationFrame(animation)
+function animation() {
+  contador += 1;
+  console.log(contador);
+  loop = requestAnimationFrame(animation);
 }
 
-var loop = requestAnimationFrame(animation)
+var loop = requestAnimationFrame(animation);
 
 setTimout(() => {
-    cancelAnimationFrame(animation) // cancela o requestAnimationFrame
-}, 5000)
+  cancelAnimationFrame(animation); // cancela o requestAnimationFrame
+}, 5000);
 ```
 
 ### Bitwise Operators, Type Arrays e Array Buffers
 
 ```javascript
-console.log(Number(113).toString(2)) // "1110001", convertendo number para binário
-console.log(parseInt(1110001).toString(2)) // 113, convertendo binário para number
+console.log(Number(113).toString(2)); // "1110001", convertendo number para binário
+console.log(parseInt(1110001).toString(2)); // 113, convertendo binário para number
 ```
+
 > Não da para usar binário diretamente no javascript, ele deve ser convertido caso seja necessário
 
 ### Bitwise Operators
@@ -401,49 +406,127 @@ Similares aos operadores lógicos, eles trabalham em cima de cada byte dos carac
 // 00000010 = 2
 // 00000011 = 3
 
-console.log(1 | 2) // 3
+console.log(1 | 2); // 3
 
 // 00000011 > 11 (zeros a esquerda foram removidos)
-console.log(parseInt(11, 2)) // 3
+console.log(parseInt(11, 2)); // 3
 
 // 00000001 = 1
 // 00000010 = 2
 // 00000011 = 3
 
-console.log(1 & 2) // 0
+console.log(1 & 2); // 0
 
 // 00000010 = 2
 // 00000011 = 3
 // 00000010 = 2
 
-console.log(2 & 3) // 2
-console.log(parseInt(10, 2)) // 2
+console.log(2 & 3); // 2
+console.log(parseInt(10, 2)); // 2
 ```
 
 > Pouco utilizado...?
 
 ## DOM e Layout Trees
 
-O Modelo de Objeto de Documentos *(do inglês Document Object Model, DOM)* é uma API definida pelo W3C para representar e interagir com qualquer documento HTML ou XML.
+O Modelo de Objeto de Documentos _(do inglês Document Object Model, DOM)_ é uma API definida pelo W3C para representar e interagir com qualquer documento HTML ou XML.
 
-O DOM é um modelo de documento carregado pelo navegador. Este documento é representado através de uma árvore de nós, onde cada um destes nós representa uma parte do documento *(por ex. um elemento, texto ou comentário)*.
+O DOM é um modelo de documento carregado pelo navegador. Este documento é representado através de uma árvore de nós, onde cada um destes nós representa uma parte do documento _(por ex. um elemento, texto ou comentário)_.
 
 O DOM é uma das APIs mais usadas na Web porque ele permite que cada código rodando no navegador acesse e interaja com cada nó do documento.
 
 Os nós podem ser criados, movidos ou modificados. Listeners de evento podem também ser adicionados aos nós para serem disparados quando um dado evento ocorrer.
 
-## Factories (fábrica) e Classes
+## Factories e Class (Fábrica e Classes)
 
 ### Factories
 
-É uma função (que não é uma class ou contructor) que retorno um novo objeto *(sem utilizar a palavra chave `new`)*.
+É uma função (que não é uma class ou contructor) que retorno um novo objeto _(sem utilizar a palavra chave `new`)_.
 
 ```javascript
-const Mamifero = function(nome, som){
-    return {nome, som} // object shorthand
-}
+const Mamifero = function (nome, som) {
+  return { nome, som }; // object shorthand
+};
 
-const cachorro = Mamifero('cachorro', 'auau')
+const cachorro = Mamifero("cachorro", "auau");
 ```
 
 > Toda vez que a função for chamada é criado um novo objeto, limpo, sem compartilhar nenhuma referência com outro objeto criado.
+
+### Classes
+
+Classes em JavaScript são introduzidas no ECMAScript 2015 e são simplificações da linguagem para as heranças baseadas nos protótipos.
+
+A sintaxe para classes não introduz um novo modelo de herança de orientação a objetos em JavaScript. Classes em JavaScript provêm uma maneira mais simples e clara de criar objetos e lidar com herança.
+
+Uma maneira de definir uma classe é usando uma declaração de classe. Para declarar uma classe, você deve usar a palavra-chave class seguida pelo nome da classe.
+
+```javascript
+class Retangulo {
+  constructor(altura, largura) {
+    this.altura = altura;
+    this.largura = largura;
+  }
+
+  // getter
+  get area() {
+    return this.calculaArea();
+  }
+
+  calculaArea() {
+    return this.altura * this.largura;
+  }
+}
+```
+
+Uma Expressão de Classe _(class expression)_ é outra forma para definir classes. Expressões de Classes podem possuir nomes ou não _(anônimas)_. O nome dado para uma expressão de classe é local ao corpo da classe.
+
+```javascript
+// sem nome
+let Retangulo = class {
+  constructor(altura, largura) {
+    this.altura = altura;
+    this.largura = largura;
+  }
+};
+
+// nomeada
+let Retangulo = class Retangulo {
+  constructor(altura, largura) {
+    this.altura = altura;
+    this.largura = largura;
+  }
+};
+```
+
+### Extends
+
+A palavra-chave **_extends_** é usada em uma declaração de classe, ou em uma expressão de classe para criar uma classe como filha de uma outra classe.
+
+```javascript
+class Animal {
+  constructor(tipo) {
+    this.tipo = tipo;
+  }
+
+  tipoAnimal() {
+    console.log(`Este animal é um ${this.tipo}`);
+  }
+}
+
+class Cachorro extends Animal {
+  constructor(tipo, nome, peso) {
+    super(tipo); // class pai
+    this.nome = nome;
+    this.peso = peso;
+  }
+  dados() {
+    console.log(`Nome do animal: ${this.nome} - Peso: ${this.peso}`);
+  }
+}
+
+let cachorro = new Cachorro("Mamífero", "Mat", "20kg");
+
+cachorro.dados();
+cachorro.tipoAnimal();
+```
