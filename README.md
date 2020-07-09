@@ -12,7 +12,7 @@ A pilha de chamadas (call stack) é um mecanismo do interpretador de uma linguag
  
  - Caso a pilha ocupar mais espaço do que foi separado a ela, será exibido um erro "stack overflow" (estouro de pilha).
 
-> ***Conceito de LIFO (last in first out).***
+> Conceito de LIFO (last in first out).
 
 ```javascript
 function function1(){
@@ -238,7 +238,7 @@ Formas de declarar uma IFEE:
     alert('olá mundo')
 }()
 ```
-> ***O "!" indica que deve ser tratada com uma expressão e não uma function***
+> O "!" indica que deve ser tratada com uma expressão e não uma function
 
 ### Namespaces
 
@@ -390,7 +390,7 @@ setTimout(() => {
 console.log(Number(113).toString(2)) // "1110001", convertendo number para binário
 console.log(parseInt(1110001).toString(2)) // 113, convertendo binário para number
 ```
-> ***Não da para usar binário diretamente no javascript, ele deve ser convertido caso seja necessário***
+> Não da para usar binário diretamente no javascript, ele deve ser convertido caso seja necessário
 
 ### Bitwise Operators
 
@@ -419,3 +419,31 @@ console.log(1 & 2) // 0
 console.log(2 & 3) // 2
 console.log(parseInt(10, 2)) // 2
 ```
+
+> Pouco utilizado...?
+
+## DOM e Layout Trees
+
+O Modelo de Objeto de Documentos *(do inglês Document Object Model, DOM)* é uma API definida pelo W3C para representar e interagir com qualquer documento HTML ou XML.
+
+O DOM é um modelo de documento carregado pelo navegador. Este documento é representado através de uma árvore de nós, onde cada um destes nós representa uma parte do documento *(por ex. um elemento, texto ou comentário)*.
+
+O DOM é uma das APIs mais usadas na Web porque ele permite que cada código rodando no navegador acesse e interaja com cada nó do documento.
+
+Os nós podem ser criados, movidos ou modificados. Listeners de evento podem também ser adicionados aos nós para serem disparados quando um dado evento ocorrer.
+
+## Factories (fábrica) e Classes
+
+### Factories
+
+É uma função (que não é uma class ou contructor) que retorno um novo objeto *(sem utilizar a palavra chave `new`)*.
+
+```javascript
+const Mamifero = function(nome, som){
+    return {nome, som} // object shorthand
+}
+
+const cachorro = Mamifero('cachorro', 'auau')
+```
+
+> Toda vez que a função for chamada é criado um novo objeto, limpo, sem compartilhar nenhuma referência com outro objeto criado.
