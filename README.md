@@ -530,3 +530,100 @@ let cachorro = new Cachorro("Mamífero", "Mat", "20kg");
 cachorro.dados();
 cachorro.tipoAnimal();
 ```
+
+## this, call, apply e bind
+
+### this
+
+O `this` representa o atual cotexto onde esta sendo utilizado, ele o referencia. O `this` fora de function e method, referencia o escopo global.
+
+```javascript
+// In web browsers, the window object is also the global object:
+console.log(this === window); // true
+
+a = 37;
+console.log(window.a); // 37
+
+this.b = "MDN";
+console.log(window.b); // "MDN"
+console.log(b); // "MDN"
+
+function teste() {
+  return this;
+}
+
+teste(); // window
+
+const dados = {
+  fn: teste,
+};
+
+dados.fn; // ƒ teste()
+```
+
+### call
+
+Permite invocar uma function alterando o seu contexto de `this`, passando qual contexto desejar na sua execução.
+
+```javascript
+const dados = { nome: "Rodrigo" };
+const saudacao = function (idade) {
+  console.log(`Bem vindo ${this.nome}, sua idade é ${idade}`);
+};
+
+saudacao.call(dados, 28);
+```
+
+### apply
+
+O `apply` é bem semelhante ao `call`, com uma diferença, os argumetos são fornecidos como um `array`.
+
+```javascript
+const dados = { nome: "Rodrigo" };
+const argumentos = [28];
+const saudacao = function (idade) {
+  console.log(`Bem vindo ${this.nome}, sua idade é ${idade}`);
+};
+
+saudacao.apply(dados, argumentos);
+```
+
+### bind
+
+O método `bind()` cria uma nova função que, quando chamada, tem sua palavra-chave `this` definida com o valor fornecido, com uma sequência determinada de argumentos precedendo quaisquer outros que sejam fornecidos quando a nova função é chamada.
+
+O principal objetivo do método bind é alterar o contexto `this` de uma função independente de onde a mesma esteja sendo chamada.
+
+```javascript
+const module = {
+  x: 42,
+  getX: function () {
+    return this.x;
+  },
+};
+
+const unboundGetX = module.getX;
+console.log(unboundGetX()); // The function gets invoked at the global scope
+// expected output: undefined
+
+const boundGetX = unboundGetX.bind(module);
+console.log(boundGetX());
+// expected output: 42
+```
+
+Outro exemplo:
+
+```javascript
+function cook() {
+  console.log(this.ingredients);
+}
+
+cook(); // => undefined
+
+let dinner = {
+  ingredients: "bacon",
+};
+
+let cookBoundToDinner = cook.bind(dinner);
+cookBoundToDinner(); // "bacon"
+```
