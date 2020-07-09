@@ -325,7 +325,7 @@ Saída:
 "d" << callback
 ```
 
-## SetTimeout, SetInterval e RequestAnimationFrame
+## settimeout, setinterval e requestanimationframe
 
 ### SetTimeout
 
@@ -382,4 +382,40 @@ var loop = requestAnimationFrame(animation)
 setTimout(() => {
     cancelAnimationFrame(animation) // cancela o requestAnimationFrame
 }, 5000)
+```
+
+### Bitwise Operators, Type Arrays e Array Buffers
+
+```javascript
+console.log(Number(113).toString(2)) // "1110001", convertendo number para binário
+console.log(parseInt(1110001).toString(2)) // 113, convertendo binário para number
+```
+> ***Não da para usar binário diretamente no javascript, ele deve ser convertido caso seja necessário***
+
+### Bitwise Operators
+
+Similares aos operadores lógicos, eles trabalham em cima de cada byte dos caracteres
+
+```javascript
+// 00000001 = 1
+// 00000010 = 2
+// 00000011 = 3
+
+console.log(1 | 2) // 3
+
+// 00000011 > 11 (zeros a esquerda foram removidos)
+console.log(parseInt(11, 2)) // 3
+
+// 00000001 = 1
+// 00000010 = 2
+// 00000011 = 3
+
+console.log(1 & 2) // 0
+
+// 00000010 = 2
+// 00000011 = 3
+// 00000010 = 2
+
+console.log(2 & 3) // 2
+console.log(parseInt(10, 2)) // 2
 ```
