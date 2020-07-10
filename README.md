@@ -695,4 +695,108 @@ carro1.cor = "preta";
 console.log(carro1.cor); 
 ```
 > O nome de construtores deve iniciar em maiúscula, por convenção.
- 
+
+## Prototype Inheritance e Prototype Chain
+
+A prototype é um modelo que exibe a aparência e o comportamento de um aplicativo ou produto no início do ciclo de vida do desenvolvimento.
+```javascript
+// Vamos criar um objeto o da fuores inteiras e muitos detnção f com suas próprias propriedades a e b:
+let f = function () {
+   this.a = 1;
+   this.b = 2;
+}
+let o = new f(); // {a: 1, b: 2}
+
+// adicionar propriedades no protótipo da função f
+f.prototype.b = 3;
+f.prototype.c = 4;
+
+// não defina o protótipo f.prototype = {b: 3, c: 4}; isso vai quebrar a cadeia de protótipos
+// o. [[Prototype]] possui propriedades bec.
+// o. [[Prototype]]. [[Prototype]] é Object.prototype.
+// Finalmente, o. [[Prototype]]. [[Prototype]]. [[Prototype]] é nulo.
+// Este é o fim da cadeia de protótipos, como nulo,
+// por definição, não possui [[Prototype]].
+// Assim, a cadeia completa de protótipos se parece com:
+// {a: 1, b: 2} ---> {b: 3, c: 4} ---> Object.prototype ---> null dfdf
+
+console.log(o.a); // 1
+// Existe uma propriedade 'a' no objeto o? Sim, e seu valor é 1.
+
+console.log(o.b); // 2
+// Existe uma propriedade própria 'b' em o? Sim, e seu valor é 2.
+// O protótipo também tem uma propriedade 'b', mas não é visitado.
+// Isso é chamado de sombreamento de propriedade(Property Shadowing)
+
+console.log(o.c); // 4
+// Existe uma propriedade própria 'c' em o? Não, verifique seu protótipo.
+// Existe uma propriedade 'c' própria em o. [[Prototype]]? Sim, seu valor é 4.
+
+console.log(o.d); // undefined
+// Existe uma propriedade 'd' própria em o? Não, verifique seu prototype.
+// Existe uma propriedade 'd' em o. [[Prototype]]? Não, verifique seu prototype.
+// o. [[Prototype]]. [[Prototype]] é Object.prototype e não há propriedade 'd' por padrão, verifique seu prototype.
+// o. [[Prototype]]. [[Prototype]]. [[Prototype]] é nulo, pare de pesquisar,
+// nenhuma propriedade encontrada, retorne indefinido.
+```
+
+```javascript
+function Graph() {
+  this.vertexes = [];
+  this.edges = [];
+}
+
+Graph.prototype = {
+  addVertex: function(v){
+    this.vertexes.push(v);
+  }
+};
+
+var g = new Graph();
+// 'g' é um objeto com as propriedades 'vertexes' e 'edges'.
+// g.[[Prototype]] é o valor de Graph.prototype quando new Graph() é executada.
+```
+
+```javascript
+function SalaAula(alunos){
+  this.alunos = alunos
+}
+
+SalaAula.prototype = {
+  adicionaAluno: function(aluno){
+    this.alunos.push(aluno)
+  }
+}
+
+const minhaSala = new SalaAula(['João', 'Maria'])
+minhaSala.adicionaAluno('Felipe')
+console.log(minhaSala.alunos); // [ 'João', 'Maria', 'Felipe' ]
+```
+
+```javascript
+function SalaAula(alunos){
+  this.alunos = alunos || []
+}
+
+SalaAula.prototype = {
+  adicionaAluno: function(aluno){
+    this.alunos.push(aluno)
+  },
+  mostrarAlunos:  function(){
+    return this.alunos
+  }
+}
+
+function NovaSala(){
+  SalaAula.call(this) // incluindo o contextoda NovaSala na SalaAula
+}
+
+NovaSala.prototype = Object.create(SalaAula.prototype)
+
+const novaSala = new NovaSala()
+// const novaSala = Object.create(NovaSala.prototype)
+// class NovaSala extends SalaAula {}
+
+novaSala.adicionaAluno('João')
+console.log(novaSala.mostrarAlunos()); // [ 'João' ]
+```
