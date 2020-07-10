@@ -627,4 +627,72 @@ let dinner = {
 let cookBoundToDinner = cook.bind(dinner);
 cookBoundToDinner(); // "bacon"
 ```
+## New, Constructor, Instanceof e Instances
+
+O operador `new` cria uma instancia de um tipo de objeto definido pelo usuário ou de um dos tipos nativos *(built-in)* que possuem uma função construtora.
+
+O `construtor` é um método especial para criar e inicializar um objeto criado a partir de uma classe.
+
+Exemplo 1:
+
+```javascript
+function usuario(nome){
+  this.nome = nome;
+  this.log = function(){
+    console.log(this)
+  }
+}
+
+const rodrigo = new usuario('Rodrigo')
+console.log(rodrigo)
+
+console.log(rodrigo instanceof usuario) // true
+console.log(rodrigo instanceof String) // false
+ 
+rodrigo.__proto__constructor('Felipe')
+usuario.prototype
+
+```
+
+Saída:
+
+```javascript
+/*
+{nome: "Felipe", log: ƒ, constructor: ƒ}
+  log: ƒ ()
+  nome: "Felipe"
+  constructor: ƒ usuario(nome)
+  __proto__: Object
+*/
+```
+
+Exemplo 2:
+
+```javascript
+function Car(make, model, year) {
+  this.make = make;
+  this.model = model;
+  this.year = year;
+}
+
+const car1 = new Car('Eagle', 'Talon TSi', 1993);
+
+console.log(car1.make); // expected output: "Eagle"
+```
+
+Você pode adicionar uma propriedade compartilhada à um tipo de objeto definido anteriormente através do uso da propriedade Function.prototype.
+
+```javascript
+function Carro() {}
+carro1 = new Carro();
+ 
+console.log(carro1.cor); // undefined
+ 
+Carro.prototype.cor = null;
+console.log(carro1.cor); // null
+ 
+carro1.cor = "preta";
+console.log(carro1.cor); 
+```
+> O nome de construtores deve iniciar em maiúscula, por convenção.
  
