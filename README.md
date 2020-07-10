@@ -627,3 +627,4 @@ let dinner = {
 let cookBoundToDinner = cook.bind(dinner);
 cookBoundToDinner(); // "bacon"
 ```
+ 
