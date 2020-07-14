@@ -699,6 +699,9 @@ console.log(carro1.cor);
 ## Prototype Inheritance e Prototype Chain
 
 A prototype é um modelo que exibe a aparência e o comportamento de um aplicativo ou produto no início do ciclo de vida do desenvolvimento.
+
+Exemplo 1:
+
 ```javascript
 // Vamos criar um objeto o da fuores inteiras e muitos detnção f com suas próprias propriedades a e b:
 let f = function () {
@@ -740,6 +743,8 @@ console.log(o.d); // undefined
 // nenhuma propriedade encontrada, retorne indefinido.
 ```
 
+Exemplo 2:
+
 ```javascript
 function Graph() {
   this.vertexes = [];
@@ -757,6 +762,8 @@ var g = new Graph();
 // g.[[Prototype]] é o valor de Graph.prototype quando new Graph() é executada.
 ```
 
+Exemplo 3:
+
 ```javascript
 function SalaAula(alunos){
   this.alunos = alunos
@@ -772,6 +779,8 @@ const minhaSala = new SalaAula(['João', 'Maria'])
 minhaSala.adicionaAluno('Felipe')
 console.log(minhaSala.alunos); // [ 'João', 'Maria', 'Felipe' ]
 ```
+
+Exemplo 4:
 
 ```javascript
 function SalaAula(alunos){
@@ -799,4 +808,82 @@ const novaSala = new NovaSala()
 
 novaSala.adicionaAluno('João')
 console.log(novaSala.mostrarAlunos()); // [ 'João' ]
+```
+
+##  Object.create e Object.assign
+
+O método `Object.assign()` é usado para copiar os valores de todas as propriedades próprias enumeráveis de um ou mais objetos de origem para um objeto destino. Este método irá retornar o objeto destino.
+
+
+```javascript
+const target = { a: 1, b: 2 };
+const source = { b: 4, c: 5 };
+
+const returnedTarget = Object.assign(target, source);
+
+console.log(target);
+// expected output: Object { a: 1, b: 4, c: 5 }
+
+console.log(returnedTarget);
+// expected output: Object { a: 1, b: 4, c: 5 }
+```
+
+O método `Object.create()` cria um novo objeto, utilizando um outro objecto existente como protótipo para o novo objeto a ser criado.
+
+```javascript
+let User = function(name, age){ // Factorie
+  this.nome = name
+  this.age = age
+}
+
+const rodrigo = new User('rodrigo', 28)
+const newRodrigo = Object.create(rodrigo)
+
+console.log(newRodrigo instanceof User) // true
+console.log(newRodrigo.name) // rodrigo > herança do prototype
+```
+
+Exemplo 1:
+
+```javascript
+function Car (color){ 
+  this.color = color
+  this.description = description
+}
+
+// utilizando prototype
+Car.prototype.getInfo = function () { // a function não aparece nas props mais existe
+  return `${this.description} and color ${this.color}` 
+} 
+
+const myCar = Object.create(Car.prototype) // assim não passamos pelo construtor do object
+myCar.color = 'blue'
+console.log(myCar.getInfo()) // "undefined and color blue"
+```
+
+Exemplo 2:
+
+```javascript
+// agora vamos passar os parâmetros para criação do objeto
+const newCar = Object.create(Car, { 
+  color: { // props descritoras - dados > valores
+    writable: true, // pode ser diretamento modificado por atribuição
+    configurable: true, // pode ser alterado ou removido do object
+    value: 'red' // valor do mesmo
+  },
+  descriptionDefault: { // props descritoras - dados
+    writable: false, 
+    configurable: true, 
+    value: 'Meu carro' 
+  },
+  description: { // props descritoras - assessoras > getters and setters
+    configurable: true,
+    get: function(){
+      return this.descriptionDefault.toUpperCase()
+    },
+    set: function(value){
+      this.descriptionDefault = value.toLowerCase()
+    }
+  },
+})
 ```
