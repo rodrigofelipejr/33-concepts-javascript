@@ -105,7 +105,7 @@ console.log(a); // { valor: 20 }
 
 A coerção ocorre quanto o javascript tenta converter o tipo de uma valor para um tipo esperado, essa conversão pode ocorrer para `string`, `number` ou `boolean`.
 
-Coerção de tipo é a conversão automática ou implícita de valores de um tipo de dados para outro (como seqüências de caracteres em números). A conversão de tipos é semelhante à coerção de tipos porque ambos convertem valores de um tipo de dados para outro com uma diferença-chave - a coerção de tipos é implícita, enquanto a conversão de tipos pode ser implícita ou explícita.
+Coerção de tipo é a conversão automática ou implícita de valores de um tipo de dados para outro (como sequências de caracteres em números). A conversão de tipos é semelhante à coerção de tipos porque ambos convertem valores de um tipo de dados para outro com uma diferença-chave - a coerção de tipos é implícita, enquanto a conversão de tipos pode ser implícita ou explícita.
 
 ```javascript
 console.log("5" - 5); // 0
@@ -153,7 +153,7 @@ Para comparações abstratas relacionais `(<=)`, os operandos são primeiro conv
 
 Quando você executa um script, o mecanismo JavaScript cria um contexto de execução global.
 
-As variáveis ​​que você declara fora das funções também são atribuidas ao contexto de execução global , fazendo parte do escopo global (conhecidos como variáveis ​​globais).
+As variáveis ​​que você declara fora das funções também são atribuídas ao contexto de execução global , fazendo parte do escopo global (conhecidos como variáveis ​​globais).
 
 - var, let e const
 
@@ -203,7 +203,7 @@ function expressao() {
 }
 ```
 
-Statement são trechos de código que performão uma ação, que fazem algo.
+Statement são trechos de código que performam uma ação, que fazem algo.
 
 Uma declaração executa uma ação, loops e if são exemplos de declarações. Onde o JavaScript espera uma declaração, você também pode escrever uma expressão. O inverso não se aplica: você não pode escrever uma declaração em que o JavaScript espera uma expressão.
 
@@ -247,7 +247,7 @@ Formas de declarar uma IFEE:
 
 ### Namespaces
 
-O namespace organiza o código em pequenos grupos, impedindo que haja a colizão com outros métodos de outras libs.
+O namespace organiza o código em pequenos grupos, impedindo que haja a colisão com outros métodos de outras libs.
 
 ```javascript
 const dados = (function(){ // dados é namespace
@@ -576,7 +576,7 @@ saudacao.call(dados, 28);
 
 ### apply
 
-O `apply` é bem semelhante ao `call`, com uma diferença, os argumetos são fornecidos como um `array`.
+O `apply` é bem semelhante ao `call`, com uma diferença, os argumentos são fornecidos como um `array`.
 
 ```javascript
 const dados = { nome: "Rodrigo" };
@@ -592,7 +592,7 @@ saudacao.apply(dados, argumentos);
 
 O método `bind()` cria uma nova função que, quando chamada, tem sua palavra-chave `this` definida com o valor fornecido, com uma sequência determinada de argumentos precedendo quaisquer outros que sejam fornecidos quando a nova função é chamada.
 
-O principal objetivo do método bind é alterar o contexto `this` de uma função independente de onde a mesma esteja sendo chamada.
+O principal objetivo do método `bind` é alterar o contexto `this` de uma função independente de onde a mesma esteja sendo chamada.
 
 ```javascript
 const module = {
@@ -703,7 +703,7 @@ A prototype é um modelo que exibe a aparência e o comportamento de um aplicati
 Exemplo 1:
 
 ```javascript
-// Vamos criar um objeto o da fuores inteiras e muitos detnção f com suas próprias propriedades a e b:
+// Vamos criar um objeto o da função f com suas próprias propriedades a e b:
 let f = function () {
    this.a = 1;
    this.b = 2;
@@ -797,7 +797,7 @@ SalaAula.prototype = {
 }
 
 function NovaSala(){
-  SalaAula.call(this) // incluindo o contextoda NovaSala na SalaAula
+  SalaAula.call(this) // incluindo o contexto da NovaSala na SalaAula
 }
 
 NovaSala.prototype = Object.create(SalaAula.prototype)
@@ -831,7 +831,7 @@ console.log(returnedTarget);
 O método `Object.create()` cria um novo objeto, utilizando um outro objecto existente como protótipo para o novo objeto a ser criado.
 
 ```javascript
-let User = function(name, age){ // Factorie
+let User = function(name, age){ // factorie
   this.nome = name
   this.age = age
 }
@@ -886,4 +886,8 @@ const newCar = Object.create(Car, {
     }
   },
 })
+ 
+console.log(newCar.description) // "MEU CARRO"
+newCar.description = "Nova definição"
+console.log(newCar.description) // "MEU CARRO" >  descriptionDefault: { writable: false } 
 ```
