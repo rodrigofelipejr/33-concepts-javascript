@@ -812,21 +812,7 @@ console.log(novaSala.mostrarAlunos()); // [ 'João' ]
 
 ##  Object.create e Object.assign
 
-O método `Object.assign()` é usado para copiar os valores de todas as propriedades próprias enumeráveis de um ou mais objetos de origem para um objeto destino. Este método irá retornar o objeto destino.
-
-
-```javascript
-const target = { a: 1, b: 2 };
-const source = { b: 4, c: 5 };
-
-const returnedTarget = Object.assign(target, source);
-
-console.log(target);
-// expected output: Object { a: 1, b: 4, c: 5 }
-
-console.log(returnedTarget);
-// expected output: Object { a: 1, b: 4, c: 5 }
-```
+### Object.create
 
 O método `Object.create()` cria um novo objeto, utilizando um outro objecto existente como protótipo para o novo objeto a ser criado.
 
@@ -890,4 +876,47 @@ const newCar = Object.create(Car, {
 console.log(newCar.description) // "MEU CARRO"
 newCar.description = "Nova definição"
 console.log(newCar.description) // "MEU CARRO" >  descriptionDefault: { writable: false } 
+```
+
+### Object.assign
+
+O método `Object.assign()` é usado para copiar os valores de todas as propriedades próprias enumeráveis de um ou mais objetos de origem para um objeto destino. Este método irá retornar o objeto destino.
+
+Receber um ou mais objetos para criar um novo objeto, que terá a referência do objeto alvo, mais não dos demais objetos que compõem da fusão.
+
+Exemplo 1:
+
+```javascript
+const target = { a: 1, b: 2 }; // object alvo
+const source = { b: 4, c: 5 }; // object que vai passar os dados para o object alvo
+
+const returnedTarget = Object.assign(target, source);
+
+console.log(target);
+// expected output: Object { a: 1, b: 4, c: 5 }
+
+console.log(returnedTarget);
+// expected output: Object { a: 1, b: 4, c: 5 }
+ 
+returnedTarget.a = 9;
+
+console.log(target);
+// expected output: Object { a: 9, b: 4, c: 5 }
+
+console.log(returnedTarget);
+// expected output: Object { a: 9, b: 4, c: 5 }
+```
+
+Exemplo 2:
+
+Podemos criar um objeto sem referência, passando no primeiro do assign um objeto vazio 
+
+```javascript
+const obj1 = {a: 1, b: 2}
+const obj2 = {c: 3, d: 4}
+
+const obj3 = Object.assign({}, obj1, obj2)
+
+console.log(obj3) 
+// expected output: Object { a: 1, b: 2, c: 3, d: 4 }
 ```
