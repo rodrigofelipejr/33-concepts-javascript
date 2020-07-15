@@ -920,3 +920,50 @@ const obj3 = Object.assign({}, obj1, obj2)
 console.log(obj3) 
 // expected output: Object { a: 1, b: 2, c: 3, d: 4 }
 ```
+
+## map, reduce, filter
+
+### map 
+
+O método map() invoca a função callback passada por argumento para cada elemento do Array e devolve um novo Array como resultado.
+
+### reduce
+
+O método reduce()executa uma função reducer (fornecida por você) para cada elemento do array, resultando num único valor de retorno.
+
+### filter
+
+O método filter() cria um novo array com todos os elementos que passaram no teste implementado pela função fornecida.
+
+Exemplo 1:
+ 
+```javascript
+const pets = [{ name: 'Caramelo', age: 3, type: 'cachorro' }, 
+{ name: 'Rex', age: 6, type: 'cachorro' },
+{ name: 'Bolota', age: 1, type: 'gato' },
+{ name: 'Thor', age: 3, type: 'cachorro' }]
+
+const dogs = pets.filter((pet, index)=> pet.type === 'cachorro')
+
+const realAge= dogs.map((dog, index)=> ({name: dog.name, age: dog.age * 7}))
+
+const totalAge = realAge.reduce((acc, curr, index) => {
+  return acc += curr.age
+}, 0)
+ 
+```
+
+Exemplo 2: 
+
+```javascript
+// chain
+const pets = [{ name: 'Caramelo', age: 3, type: 'cachorro' }, 
+{ name: 'Rex', age: 6, type: 'cachorro' },
+{ name: 'Bolota', age: 1, type: 'gato' },
+{ name: 'Thor', age: 3, type: 'cachorro' }]
+
+const age = pets
+            .filter((pet, index)=> pet.type === 'cachorro')
+            .map((dog, index)=> ({name: dog.name, age: dog.age * 7}))
+            .reduce((acc, curr, index) => acc += curr.age, 0)
+```
