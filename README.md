@@ -1055,7 +1055,7 @@ function init() {
 init();
 ```
 
-A função `init()` cria uma variável local chamada `name`, e depois define uma função chamada `displayName()`. `displayName()` é uma função aninhada (_um closure_) — ela é definida dentro da função init(), e está disponivel apenas dentro do corpo daquela função. Diferente de `init()`, `displayName()` não tem variáveis locais próprias, e ao invés disso reusa a variável name declarada na função pai.
+A função `init()` cria uma variável local chamada `name`, e depois define uma função chamada `displayName()`. `displayName()` é uma função aninhada (_um closure_) — ela é definida dentro da função init(), e está disponível apenas dentro do corpo daquela função. Diferente de `init()`, `displayName()` não tem variáveis locais próprias, e ao invés disso reusa a variável name declarada na função pai.
 
 ## High Order Functions (Funções de alta ordem) HOF
 
@@ -1067,3 +1067,48 @@ function mathOrder(num1, num2, op) {
 }
 console.log(mathOperator(1, 2, (num1, num2) => num1 + num2));
 ```
+
+## Recursion (Recursão)
+
+A recursão é simplesmente quando uma função chama ela mesma.
+
+Exemplo 1:
+
+```javascript
+function factorial(x) {
+  if (x < 0) return;
+  if (x === 0) return 1;
+  console.log(x);
+  return x * factorial(x - 1);
+}
+
+factorial(3); // 6
+
+return 1 * 1 * 2 * 3; // 6
+```
+
+Explicação estruturada:
+
+```javascript
+factorial(0) returns 1                 => 1
+factorial(1) returns 1 * factorial(0)  => 1 * 1
+factorial(2) returns 2 * factorial(1)  => 2 * 1 * 1
+factorial(3) returns 3 * factorial(2)  => 3 * 2 * 1 * 1
+
+// 3 * 2 * 1 * 1 = 6
+```
+
+> Deve existir um evento de saída para evitar um loop infinito.
+
+```javascript
+function contagem(num) {
+  console.log(num);
+  if (num > 0) {
+    contagem(num - 1);
+  }
+}
+
+contagem(5); // 1 2 3 4 5
+```
+
+> A recursão faz mais sentido para no paradigma funcional.
