@@ -967,3 +967,62 @@ const age = pets
             .map((dog, index)=> ({name: dog.name, age: dog.age * 7}))
             .reduce((acc, curr, index) => acc += curr.age, 0)
 ```
+
+## Functional programming (Programação funcional)
+
+Entende-se como paradigma uma forma de fazer algo. Ou seja, paradigma de programação é o nome que se dá a maneira como 
+se programa, a orientação que seus códigos irão ter.
+
+De maneira simples: código funcional é um código composto de múltiplas funções que se compõem para resolver um problema. 
+Pense da seguinte forma: eu tenho um dado de entrada e preciso transformá-lo em um dado de saída. Usando PF eu vou 
+abstrair as lógicas de transformações do meu código em funções, e usá-las no momento oportuno para transformar este meu dado.
+
+### Pure functions (Funções puras)
+
+Uma função pura é uma função que:
+
+- Dada a mesma entrada, sempre retornará a mesma saída.
+- Não produz efeitos colaterais.
+
+Está função abaixo é impura, tanto por fazer mais de uma ação, quanto por ter efeitos colaterais ao alterar um objeto diretamente.
+
+```javascript
+const user = {name: 'Rodrigo', points: 0}
+
+const changeUser = ()=> {
+  user.name = user.name.toUpperCase()
+  user.pontos += 1
+  return user
+}
+
+changeUser(user)
+console.log(user) // {name: 'RODRIGO', points: 1}
+```
+
+Transformando essa função em pura...
+
+```javascript
+const user = {name: 'Rodrigo', points: 0}
+
+const nameUpperCase = (name)=> name.toUpperCase()
+const pointIncremenet = (point) => point + 1
+
+user.name = nameUpperCase(user.name)
+user.points = pointIncremenet(user.points)
+
+console.log(user) // {name: 'RODRIGO', points: 1}
+```
+
+Agora, cada função realiza apenas uma ação, retornar algo o mesmo tipo do valor 
+recebido, as propriedades não são alteradas diretamente no objeto, evitando assim 
+efeitos colaterais.
+
+- Fácil legibilidade
+- Facilita a aplicação de testes
+- Possibilita o reuso de códigos
+
+### State Mutation (Imutabilidade)
+
+Tudo além de tipos primário é mutável.
+
+Leitura: https://medium.com/trainingcenter/programa%C3%A7%C3%A3o-funcional-para-iniciantes-9e2beddb5b43
