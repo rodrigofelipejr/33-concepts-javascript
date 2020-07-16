@@ -1112,3 +1112,66 @@ contagem(5); // 1 2 3 4 5
 ```
 
 > A recursão faz mais sentido para no paradigma funcional.
+
+## Collections (Coleções)
+
+Objetos interaveis, atravez de construtores como `Set()` e o `Map()`.
+
+### Set
+
+O objeto Set permite que você armazene valores únicos de qualquer tipo, desde valores primitivos a referências a objetos.
+
+```javascript
+const alphabet = new Set(["a", "b", "c"]);
+alphabet.add("d"); // add novo elemento
+alphabet.clear(); // remove todos os elementos
+alphabet.size; // tamanho
+alphabet.delete("a"); // remove o elemento especificado
+alphabet.has("c"); // verifica se um elemento existe (return boolean)
+```
+
+O método `entries()` retorna um novo objeto Iterador (_Iterator_) que contém um array de `[valor, valor]` para cada elemento de um objeto Set em ordem de inserção.
+
+```javascript
+const alphabet = new Set(["a", "b", "c"]);
+
+const arr = alphabet.entries();
+console.log(arr.next().value);
+console.log(arr.next().value);
+console.log(arr.next().value);
+
+alphabet.forEach((value) => console.log(value));
+```
+
+Removendo itens duplicados de um array
+
+```javascript
+const arr1 = [1, 2, 3, 3, 4, 4, 5];
+
+const numbers = new Set(arr1);
+console.log(numbers.size); // 5
+
+const arr2 = Array.from(numbers);
+console.log(arr2); // [1, 2, 3, 4, 5]
+```
+
+### Map
+
+O objeto `Map` é um mapa simples de chave/valor. Qualquer valor (_objeto e valores primitivos_) pode ser usado como uma chave ou um valor.
+
+```javascript
+const data = new Map([
+  ["name", "Rodrigo"],
+  ["age", 27],
+]);
+data.set("estado", "Minas Gerais"); // add elemento
+data.get("name"); // Rodrigo
+
+data.forEach((value, key) => console.log(`key: ${key} - value: ${value}`));
+
+// saída
+
+// "key: name - value: Rodrigo"
+// "key: age - value: 27"
+// "key: estado - value: Minas Gerais"
+```
