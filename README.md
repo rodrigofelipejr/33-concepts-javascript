@@ -1056,3 +1056,14 @@ init();
 ```
 
 A função `init()` cria uma variável local chamada `name`, e depois define uma função chamada `displayName()`. `displayName()` é uma função aninhada (_um closure_) — ela é definida dentro da função init(), e está disponivel apenas dentro do corpo daquela função. Diferente de `init()`, `displayName()` não tem variáveis locais próprias, e ao invés disso reusa a variável name declarada na função pai.
+
+## High Order Functions (Funções de alta ordem) HOF
+
+São funções que podem receber outras funções como argumento ou que retornam funções. Ex.: callback
+
+```javascript
+function mathOrder(num1, num2, op) {
+  return op(num1, num2);
+}
+console.log(mathOperator(1, 2, (num1, num2) => num1 + num2));
+```
