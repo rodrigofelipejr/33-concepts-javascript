@@ -627,31 +627,31 @@ let dinner = {
 let cookBoundToDinner = cook.bind(dinner);
 cookBoundToDinner(); // "bacon"
 ```
+
 ## New, Constructor, Instanceof e Instances
 
-O operador `new` cria uma instancia de um tipo de objeto definido pelo usuário ou de um dos tipos nativos *(built-in)* que possuem uma função construtora.
+O operador `new` cria uma instancia de um tipo de objeto definido pelo usuário ou de um dos tipos nativos _(built-in)_ que possuem uma função construtora.
 
 O `construtor` é um método especial para criar e inicializar um objeto criado a partir de uma classe.
 
 Exemplo 1:
 
 ```javascript
-function usuario(nome){
+function usuario(nome) {
   this.nome = nome;
-  this.log = function(){
-    console.log(this)
-  }
+  this.log = function () {
+    console.log(this);
+  };
 }
 
-const rodrigo = new usuario('Rodrigo')
-console.log(rodrigo)
+const rodrigo = new usuario("Rodrigo");
+console.log(rodrigo);
 
-console.log(rodrigo instanceof usuario) // true
-console.log(rodrigo instanceof String) // false
- 
-rodrigo.__proto__constructor('Felipe')
-usuario.prototype
+console.log(rodrigo instanceof usuario); // true
+console.log(rodrigo instanceof String); // false
 
+rodrigo.__proto__constructor("Felipe");
+usuario.prototype;
 ```
 
 Saída:
@@ -675,7 +675,7 @@ function Car(make, model, year) {
   this.year = year;
 }
 
-const car1 = new Car('Eagle', 'Talon TSi', 1993);
+const car1 = new Car("Eagle", "Talon TSi", 1993);
 
 console.log(car1.make); // expected output: "Eagle"
 ```
@@ -685,15 +685,16 @@ Você pode adicionar uma propriedade compartilhada à um tipo de objeto definido
 ```javascript
 function Carro() {}
 carro1 = new Carro();
- 
+
 console.log(carro1.cor); // undefined
- 
+
 Carro.prototype.cor = null;
 console.log(carro1.cor); // null
- 
+
 carro1.cor = "preta";
-console.log(carro1.cor); 
+console.log(carro1.cor);
 ```
+
 > O nome de construtores deve iniciar em maiúscula, por convenção.
 
 ## Prototype Inheritance e Prototype Chain
@@ -705,9 +706,9 @@ Exemplo 1:
 ```javascript
 // Vamos criar um objeto o da função f com suas próprias propriedades a e b:
 let f = function () {
-   this.a = 1;
-   this.b = 2;
-}
+  this.a = 1;
+  this.b = 2;
+};
 let o = new f(); // {a: 1, b: 2}
 
 // adicionar propriedades no protótipo da função f
@@ -752,9 +753,9 @@ function Graph() {
 }
 
 Graph.prototype = {
-  addVertex: function(v){
+  addVertex: function (v) {
     this.vertexes.push(v);
-  }
+  },
 };
 
 var g = new Graph();
@@ -765,117 +766,122 @@ var g = new Graph();
 Exemplo 3:
 
 ```javascript
-function SalaAula(alunos){
-  this.alunos = alunos
+function SalaAula(alunos) {
+  this.alunos = alunos;
 }
 
 SalaAula.prototype = {
-  adicionaAluno: function(aluno){
-    this.alunos.push(aluno)
-  }
-}
+  adicionaAluno: function (aluno) {
+    this.alunos.push(aluno);
+  },
+};
 
-const minhaSala = new SalaAula(['João', 'Maria'])
-minhaSala.adicionaAluno('Felipe')
+const minhaSala = new SalaAula(["João", "Maria"]);
+minhaSala.adicionaAluno("Felipe");
 console.log(minhaSala.alunos); // [ 'João', 'Maria', 'Felipe' ]
 ```
 
 Exemplo 4:
 
 ```javascript
-function SalaAula(alunos){
-  this.alunos = alunos || []
+function SalaAula(alunos) {
+  this.alunos = alunos || [];
 }
 
 SalaAula.prototype = {
-  adicionaAluno: function(aluno){
-    this.alunos.push(aluno)
+  adicionaAluno: function (aluno) {
+    this.alunos.push(aluno);
   },
-  mostrarAlunos:  function(){
-    return this.alunos
-  }
+  mostrarAlunos: function () {
+    return this.alunos;
+  },
+};
+
+function NovaSala() {
+  SalaAula.call(this); // incluindo o contexto da NovaSala na SalaAula
 }
 
-function NovaSala(){
-  SalaAula.call(this) // incluindo o contexto da NovaSala na SalaAula
-}
+NovaSala.prototype = Object.create(SalaAula.prototype);
 
-NovaSala.prototype = Object.create(SalaAula.prototype)
-
-const novaSala = new NovaSala()
+const novaSala = new NovaSala();
 // const novaSala = Object.create(NovaSala.prototype)
 // class NovaSala extends SalaAula {}
 
-novaSala.adicionaAluno('João')
+novaSala.adicionaAluno("João");
 console.log(novaSala.mostrarAlunos()); // [ 'João' ]
 ```
 
-##  Object.create e Object.assign
+## Object.create e Object.assign
 
 ### Object.create
 
 O método `Object.create()` cria um novo objeto, utilizando um outro objecto existente como protótipo para o novo objeto a ser criado.
 
 ```javascript
-let User = function(name, age){ // factorie
-  this.nome = name
-  this.age = age
-}
+let User = function (name, age) {
+  // factorie
+  this.nome = name;
+  this.age = age;
+};
 
-const rodrigo = new User('rodrigo', 28)
-const newRodrigo = Object.create(rodrigo)
+const rodrigo = new User("rodrigo", 28);
+const newRodrigo = Object.create(rodrigo);
 
-console.log(newRodrigo instanceof User) // true
-console.log(newRodrigo.name) // rodrigo > herança do prototype
+console.log(newRodrigo instanceof User); // true
+console.log(newRodrigo.name); // rodrigo > herança do prototype
 ```
 
 Exemplo 1:
 
 ```javascript
-function Car (color){ 
-  this.color = color
-  this.description = description
+function Car(color) {
+  this.color = color;
+  this.description = description;
 }
 
 // utilizando prototype
-Car.prototype.getInfo = function () { // a function não aparece nas props mais existe
-  return `${this.description} and color ${this.color}` 
-} 
+Car.prototype.getInfo = function () {
+  // a function não aparece nas props mais existe
+  return `${this.description} and color ${this.color}`;
+};
 
-const myCar = Object.create(Car.prototype) // assim não passamos pelo construtor do object
-myCar.color = 'blue'
-console.log(myCar.getInfo()) // "undefined and color blue"
+const myCar = Object.create(Car.prototype); // assim não passamos pelo construtor do object
+myCar.color = "blue";
+console.log(myCar.getInfo()); // "undefined and color blue"
 ```
 
 Exemplo 2:
 
 ```javascript
 // agora vamos passar os parâmetros para criação do objeto
-const newCar = Object.create(Car, { 
-  color: { // props descritoras - dados > valores
+const newCar = Object.create(Car, {
+  color: {
+    // props descritoras - dados > valores
     writable: true, // pode ser diretamento modificado por atribuição
     configurable: true, // pode ser alterado ou removido do object
-    value: 'red' // valor do mesmo
+    value: "red", // valor do mesmo
   },
-  descriptionDefault: { // props descritoras - dados
-    writable: false, 
-    configurable: true, 
-    value: 'Meu carro' 
-  },
-  description: { // props descritoras - assessoras > getters and setters
+  descriptionDefault: {
+    // props descritoras - dados
+    writable: false,
     configurable: true,
-    get: function(){
-      return this.descriptionDefault.toUpperCase()
-    },
-    set: function(value){
-      this.descriptionDefault = value.toLowerCase()
-    }
+    value: "Meu carro",
   },
-})
- 
-console.log(newCar.description) // "MEU CARRO"
-newCar.description = "Nova definição"
-console.log(newCar.description) // "MEU CARRO" >  descriptionDefault: { writable: false } 
+  description: {
+    // props descritoras - assessoras > getters and setters
+    configurable: true,
+    get: function () {
+      return this.descriptionDefault.toUpperCase();
+    },
+    set: function (value) {
+      this.descriptionDefault = value.toLowerCase();
+    },
+  },
+});
+
+console.log(newCar.description); // "MEU CARRO"
+newCar.description = "Nova definição";
+console.log(newCar.description); // "MEU CARRO" >  descriptionDefault: { writable: false }
 ```
 
 ### Object.assign
@@ -897,7 +903,7 @@ console.log(target);
 
 console.log(returnedTarget);
 // expected output: Object { a: 1, b: 4, c: 5 }
- 
+
 returnedTarget.a = 9;
 
 console.log(target);
@@ -909,21 +915,21 @@ console.log(returnedTarget);
 
 Exemplo 2:
 
-Podemos criar um objeto sem referência, passando no primeiro do assign um objeto vazio 
+Podemos criar um objeto sem referência, passando no primeiro do assign um objeto vazio
 
 ```javascript
-const obj1 = {a: 1, b: 2}
-const obj2 = {c: 3, d: 4}
+const obj1 = { a: 1, b: 2 };
+const obj2 = { c: 3, d: 4 };
 
-const obj3 = Object.assign({}, obj1, obj2)
+const obj3 = Object.assign({}, obj1, obj2);
 
-console.log(obj3) 
+console.log(obj3);
 // expected output: Object { a: 1, b: 2, c: 3, d: 4 }
 ```
 
 ## map, reduce, filter
 
-### map 
+### map
 
 O método map() invoca a função callback passada por argumento para cada elemento do Array e devolve um novo Array como resultado.
 
@@ -936,45 +942,51 @@ O método reduce()executa uma função reducer (fornecida por você) para cada e
 O método filter() cria um novo array com todos os elementos que passaram no teste implementado pela função fornecida.
 
 Exemplo 1:
- 
+
 ```javascript
-const pets = [{ name: 'Caramelo', age: 3, type: 'cachorro' }, 
-{ name: 'Rex', age: 6, type: 'cachorro' },
-{ name: 'Bolota', age: 1, type: 'gato' },
-{ name: 'Thor', age: 3, type: 'cachorro' }]
+const pets = [
+  { name: "Caramelo", age: 3, type: "cachorro" },
+  { name: "Rex", age: 6, type: "cachorro" },
+  { name: "Bolota", age: 1, type: "gato" },
+  { name: "Thor", age: 3, type: "cachorro" },
+];
 
-const dogs = pets.filter((pet, index)=> pet.type === 'cachorro')
+const dogs = pets.filter((pet, index) => pet.type === "cachorro");
 
-const realAge= dogs.map((dog, index)=> ({name: dog.name, age: dog.age * 7}))
+const realAge = dogs.map((dog, index) => ({
+  name: dog.name,
+  age: dog.age * 7,
+}));
 
 const totalAge = realAge.reduce((acc, curr, index) => {
-  return acc += curr.age
-}, 0)
- 
+  return (acc += curr.age);
+}, 0);
 ```
 
-Exemplo 2: 
+Exemplo 2:
 
 ```javascript
 // chain
-const pets = [{ name: 'Caramelo', age: 3, type: 'cachorro' }, 
-{ name: 'Rex', age: 6, type: 'cachorro' },
-{ name: 'Bolota', age: 1, type: 'gato' },
-{ name: 'Thor', age: 3, type: 'cachorro' }]
+const pets = [
+  { name: "Caramelo", age: 3, type: "cachorro" },
+  { name: "Rex", age: 6, type: "cachorro" },
+  { name: "Bolota", age: 1, type: "gato" },
+  { name: "Thor", age: 3, type: "cachorro" },
+];
 
 const age = pets
-            .filter((pet, index)=> pet.type === 'cachorro')
-            .map((dog, index)=> ({name: dog.name, age: dog.age * 7}))
-            .reduce((acc, curr, index) => acc += curr.age, 0)
+  .filter((pet, index) => pet.type === "cachorro")
+  .map((dog, index) => ({ name: dog.name, age: dog.age * 7 }))
+  .reduce((acc, curr, index) => (acc += curr.age), 0);
 ```
 
 ## Functional programming (Programação funcional)
 
-Entende-se como paradigma uma forma de fazer algo. Ou seja, paradigma de programação é o nome que se dá a maneira como 
+Entende-se como paradigma uma forma de fazer algo. Ou seja, paradigma de programação é o nome que se dá a maneira como
 se programa, a orientação que seus códigos irão ter.
 
-De maneira simples: código funcional é um código composto de múltiplas funções que se compõem para resolver um problema. 
-Pense da seguinte forma: eu tenho um dado de entrada e preciso transformá-lo em um dado de saída. Usando PF eu vou 
+De maneira simples: código funcional é um código composto de múltiplas funções que se compõem para resolver um problema.
+Pense da seguinte forma: eu tenho um dado de entrada e preciso transformá-lo em um dado de saída. Usando PF eu vou
 abstrair as lógicas de transformações do meu código em funções, e usá-las no momento oportuno para transformar este meu dado.
 
 ### Pure functions (Funções puras)
@@ -987,34 +999,34 @@ Uma função pura é uma função que:
 Está função abaixo é impura, tanto por fazer mais de uma ação, quanto por ter efeitos colaterais ao alterar um objeto diretamente.
 
 ```javascript
-const user = {name: 'Rodrigo', points: 0}
+const user = { name: "Rodrigo", points: 0 };
 
-const changeUser = ()=> {
-  user.name = user.name.toUpperCase()
-  user.pontos += 1
-  return user
-}
+const changeUser = () => {
+  user.name = user.name.toUpperCase();
+  user.pontos += 1;
+  return user;
+};
 
-changeUser(user)
-console.log(user) // {name: 'RODRIGO', points: 1}
+changeUser(user);
+console.log(user); // {name: 'RODRIGO', points: 1}
 ```
 
 Transformando essa função em pura...
 
 ```javascript
-const user = {name: 'Rodrigo', points: 0}
+const user = { name: "Rodrigo", points: 0 };
 
-const nameUpperCase = (name)=> name.toUpperCase()
-const pointIncremenet = (point) => point + 1
+const nameUpperCase = (name) => name.toUpperCase();
+const pointIncremenet = (point) => point + 1;
 
-user.name = nameUpperCase(user.name)
-user.points = pointIncremenet(user.points)
+user.name = nameUpperCase(user.name);
+user.points = pointIncremenet(user.points);
 
-console.log(user) // {name: 'RODRIGO', points: 1}
+console.log(user); // {name: 'RODRIGO', points: 1}
 ```
 
-Agora, cada função realiza apenas uma ação, retornar algo o mesmo tipo do valor 
-recebido, as propriedades não são alteradas diretamente no objeto, evitando assim 
+Agora, cada função realiza apenas uma ação, retornar algo o mesmo tipo do valor
+recebido, as propriedades não são alteradas diretamente no objeto, evitando assim
 efeitos colaterais.
 
 - Fácil legibilidade
@@ -1025,4 +1037,22 @@ efeitos colaterais.
 
 Tudo além de tipos primário é mutável.
 
-Leitura: https://medium.com/trainingcenter/programa%C3%A7%C3%A3o-funcional-para-iniciantes-9e2beddb5b43
+Leitura: <https://medium.com/trainingcenter/programa%C3%A7%C3%A3o-funcional-para-iniciantes-9e2beddb5b43>
+
+## Closures
+
+Um closure (fechamento) é uma função que se "lembra" do ambiente — ou escopo léxico — em que ela foi criada.
+
+```javascript
+function init() {
+  var name = "Mozilla";
+  function displayName() {
+    alert(name);
+  }
+  displayName();
+}
+
+init();
+```
+
+A função `init()` cria uma variável local chamada `name`, e depois define uma função chamada `displayName()`. `displayName()` é uma função aninhada (_um closure_) — ela é definida dentro da função init(), e está disponivel apenas dentro do corpo daquela função. Diferente de `init()`, `displayName()` não tem variáveis locais próprias, e ao invés disso reusa a variável name declarada na função pai.
