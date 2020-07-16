@@ -1175,3 +1175,55 @@ data.forEach((value, key) => console.log(`key: ${key} - value: ${value}`));
 // "key: age - value: 27"
 // "key: estado - value: Minas Gerais"
 ```
+
+## Generators
+
+Generators são funções especiais que podem ser executadas, pausadas e continuadas em diferentes estágios da sua execução ou iteração, tudo isso graças a nova palavra reservada `yield`.
+
+Exemplo 1:
+
+```javascript
+function* interaGenerator(total) {
+  for (let i = 0; i <= total; i++) {
+    yield console.log(i); // yield > similar a um "return"
+  }
+}
+
+const totalGenerator = interaGenerator(3); // atribuindo para não ficar reinicializando
+
+totalGenerator.next();
+// 0
+// {value: undefined, done: false, __proto__: Object}
+
+totalGenerator.next();
+// 1
+// {value: undefined, done: false, __proto__: Object}
+
+totalGenerator.next();
+// 2
+// {value: undefined, done: false, __proto__: Object}
+
+totalGenerator.next();
+// 3
+// {value: undefined, done: false, __proto__: Object}
+
+totalGenerator.next();
+// {value: undefined, done: true, __proto__: Object}
+```
+
+Exemplo 2:
+
+```javascript
+function* interagenerator(total) {
+  for (let i = 1; i <= total; i++) {
+    yield i;
+  }
+}
+
+const totalGenerator = interagenerator(3);
+
+totalGenerator.next().value; // 1
+totalGenerator.next().value; // 2
+totalGenerator.next().value; // 3
+totalGenerator.next().value; // undefined
+```
