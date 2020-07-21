@@ -1,5 +1,8 @@
 # 33 Concepts Every JavaScript Developer Should Know
 
+Fontes do github:
+[Leonardo Maldonado](https://github.com/leonardomso/33-js-concepts) ou [Tiago Boeing](https://github.com/tiagoboeing/33-js-concepts)
+
 ## 1 - Pilha de chamadas (Call stack)
 
 A pilha de chamadas (call stack) é um mecanismo do interpretador de uma linguagem que organiza o funcionamento do script quando são chamadas muitas funções, qual função está sendo executada no momento, e quais serão chamadas dentro de alguma função, etc.
@@ -67,8 +70,8 @@ console.log(typeof 28); // "number"
 
 console.log("Rodrigo".length); // 7
 
-var doze = new Number(12); // object
-var quinze = doze + 3;
+const doze = new Number(12); // object
+const quinze = doze + 3;
 
 console.log(quinze); // 15
 console.log(typeof doze); // "object"
@@ -86,14 +89,14 @@ Se o valor for um valor primitivo, ao acessar a variável, você manipula o valo
 Ao contrário de um valor primitivo, quando você manipula um objeto, trabalha na referência desse objeto, e não no objeto real. Significa que uma variável que armazena um objeto é acessada por referência .
 
 ```javascript
-var x = 10;
-var y = x; /* y recebeu valor */
+let x = 10;
+let y = x; /* y recebeu valor */
 
 x = 20;
 console.log(x, y); // x = 20 y = 10
 
-var a = { valor: 10 };
-var b = a; /* a recebeu uma referência */
+let a = { valor: 10 };
+let b = a; /* a recebeu uma referência */
 
 a.valor = 20;
 
@@ -210,7 +213,7 @@ Uma declaração executa uma ação, loops e if são exemplos de declarações. 
 Por exemplo, uma instrução if não pode se tornar o argumento de uma função.
 
 ```javascript
-var variavel = 20;
+let variavel = 20;
 
 if (true) {
   variavel = 30;
@@ -251,7 +254,7 @@ O namespace organiza o código em pequenos grupos, impedindo que haja a colisão
 
 ```javascript
 const dados = (function(){ // dados é namespace
-var contador = 0 // private - escopo de bloco
+let contador = 0 // private - escopo de bloco
 return{
     incrementar: fucntion(){ // método
         contador += 1
@@ -381,7 +384,7 @@ function animation() {
   loop = requestAnimationFrame(animation);
 }
 
-var loop = requestAnimationFrame(animation);
+let loop = requestAnimationFrame(animation);
 
 setTimout(() => {
   cancelAnimationFrame(animation); // cancela o requestAnimationFrame
@@ -758,7 +761,7 @@ Graph.prototype = {
   },
 };
 
-var g = new Graph();
+let g = new Graph();
 // 'g' é um objeto com as propriedades 'vertexes' e 'edges'.
 // g.[[Prototype]] é o valor de Graph.prototype quando new Graph() é executada.
 ```
@@ -1045,7 +1048,7 @@ Um closure (fechamento) é uma função que se "lembra" do ambiente — ou escop
 
 ```javascript
 function init() {
-  var name = "Mozilla";
+  let name = "Mozilla";
   function displayName() {
     alert(name);
   }
@@ -1164,6 +1167,7 @@ const data = new Map([
   ["name", "Rodrigo"],
   ["age", 27],
 ]);
+
 data.set("estado", "Minas Gerais"); // add elemento
 data.get("name"); // Rodrigo
 
@@ -1226,4 +1230,95 @@ totalGenerator.next().value; // 1
 totalGenerator.next().value; // 2
 totalGenerator.next().value; // 3
 totalGenerator.next().value; // undefined
+```
+
+## Promises (Promessas)
+
+Promise é um objeto usado para processamento assíncrono. Um `Promise` (de "promessa") representa um valor que pode estar disponível agora, no futuro ou nunca.
+
+```javascript
+new Promise(/* executor */ function(resolve, reject) { ... });
+```
+
+Estados de uma `Promise`:
+
+- `pending` (_pendente_): Estado inicial, que não foi realizada nem rejeitada.
+- `fulfilled` (_realizada_): sucesso na operação.
+- `rejected` (_rejeitado_): falha na operação.
+- `settled` (_estabelecida_): Que foi realizada ou rejeitada.
+
+### Métodos
+
+#### Promise.all(lista)
+
+Retorna uma promise que é resolvida quando todas as promises no argumento lista forem resolvidas ou rejeitada assim que uma das promises da lista for rejeitada. Se a promise retornada for resolvida, ela é resolvida com um array dos valores das promises resolvidas da lista. Se a promise for rejeitada, ela é rejeitada com o motivo da primeira promise que foi rejeitada na lista. Este método pode ser útil para agregar resultados de múltiplas promises.
+
+#### Promise.race(lista)
+
+Retorna uma promise que resolve ou rejeita assim que uma das promises do argumento lista resolve ou rejeita, com um valor ou o motivo daquela promise.
+
+#### Promise.reject(motivo)
+
+Retorna um objeto `Promise` que foi rejeitado por um dado motivo.
+
+#### Promise.resolve(valor)
+
+Retorna um objeto `Promise` que foi resolvido com um dado valor. Se o valor é `thenable` (possui um método `then`), a promise retornada "seguirá" este método, adotando esse estado eventual; caso contrário a promise retornada será realizada com o valor. Geralmente, se você quer saber se um valor é uma promise ou não, utilize `Promise.resolve(valor)` e trabalhe com a valor de retorno que é sempre uma promise.
+
+```javascript
+const promiseCount = 0;
+
+function testPromise() {
+  let thisPromiseCount = ++promiseCount;
+
+  const log = document.getElementById("log");
+  log.insertAdjacentHTML(
+    "beforeend",
+    thisPromiseCount + ") Started (<small>Sync code started</small>)<br/>"
+  );
+
+  // Criamos uma nova promise: prometemos a contagem dessa promise (após aguardar 3s)
+  const p1 = new Promise(
+    // a função resolve() é chamada com a capacidade para resolver ou
+    // rejeitar a promise
+    function (resolve, reject) {
+      log.insertAdjacentHTML(
+        "beforeend",
+        thisPromiseCount +
+          ") Promise started (<small>Async code started</small>)<br/>"
+      );
+      // Isto é apenas um exemplo para criar assincronismo
+      window.setTimeout(function () {
+        // Cumprimos a promessa !
+        resolve(thisPromiseCount);
+      }, Math.random() * 2000 + 1000);
+    }
+  );
+
+  // definimos o que fazer quando a promise for realizada
+  p1.then(
+    // apenas logamos a mensagem e o valor
+    function (val) {
+      log.insertAdjacentHTML(
+        "beforeend",
+        val + ") Promise fulfilled (<small>Async code terminated</small>)<br/>"
+      );
+    }
+  );
+
+  log.insertAdjacentHTML(
+    "beforeend",
+    thisPromiseCount +
+      ") Promise made (<small>Sync code terminated</small>)<br/>"
+  );
+}
+```
+
+Saída:
+
+```javascript
+1) Started (Sync code started)
+1) Promise started (Async code started)
+1) Promise made (Sync code terminated)
+1) Promise fulfilled (Async code terminated)
 ```
