@@ -1322,3 +1322,283 @@ Saída:
 1) Promise made (Sync code terminated)
 1) Promise fulfilled (Async code terminated)
 ```
+
+## async/await
+
+Adições mais recentes à linguagem JavaScript são funções assíncronas e a `await` palavra - chave, parte da chamada edição JavaScript do ECMAScript 2017. Esses recursos agem basicamente como açúcar sintático além das promessas, facilitando a escrita e a leitura de códigos assíncronos. Eles fazem com que o código assíncrono pareça mais com o código síncrono, portanto vale a pena aprender.
+
+Existem duas partes no uso de async/await no seu código.
+
+Primeiro, temos a `async` palavra-chave, que você coloca na frente de uma declaração de função para transformá-la em uma função assíncrona . Uma função assíncrona é uma função que sabe como esperar a possibilidade da `await` palavra-chave ser usada para invocar código assíncrono.
+
+```javascript
+// sync
+function hello() { return "Hello" };
+hello();
+```
+
+Saída: 
+```javascript
+"Hello"
+```
+
+Ao invocar a função `async` é retornada uma promessa. Essa é uma das características das funções assíncronas - seus valores de retorno são garantidos para serem convertidos em promessas.
+
+```javascript
+// async
+async function hello() { return "Hello" };
+hello();
+```
+
+Saída: 
+```javascript
+Promise {<fulfilled>: "Hello"}
+```
+
+### Outras formas de declarar uma função `async`
+
+```javascript
+let hello = async function() { return "Hello" };
+hello();
+```
+
+```javascript
+let hello = async () => { return "Hello" };
+```
+
+Para realmente consumir o valor retornado quando a promessa é cumprida, já que está retornando uma promessa, podemos usar um `.then()`:
+
+```javascript
+hello().then((value) => console.log(value))
+
+// ou mesmo
+
+hello().then(console.log)
+```
+
+A vantagem real das funções assíncronas se torna aparente quando você a combina com a palavra-chave `await`, que só funciona dentro de funções assíncronas. 
+
+Isso pode ser colocado na frente de qualquer função assíncrona baseada em promessa para pausar seu código nessa linha até que a promessa seja cumprida e, em seguida, retornar o valor resultante. 
+
+Enquanto isso, outro código que pode estar aguardando uma chance de executar pode ser processado.
+
+```javascript
+async function hello() {
+  return greeting = await Promise.resolve("Hello");
+};
+
+hello().then(alert);
+```
+
+### Reescrevendo o código com *promise* para *async/await*
+
+Com promise:
+
+```javascript
+fetch('coffee.jpg')
+.then(response => {
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  } else {
+    return response.blob();
+  }
+})
+.then(myBlob => {
+  let objectURL = URL.createObjectURL(myBlob);
+  let image = document.createElement('img');
+  image.src = objectURL;
+  document.body.appendChild(image);
+})
+.catch(e => {
+  console.log('There has been a problem with your fetch operation: ' + e.message);
+});
+```
+
+Com async/await:
+
+```javascript
+async function myFetch() {
+  let response = await fetch('coffee.jpg');
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  } else {
+    let myBlob = await response.blob();
+
+    let objectURL = URL.createObjectURL(myBlob);
+    let image = document.createElement('img');
+    image.src = objectURL;
+    document.body.appendChild(image);
+  }
+}
+
+myFetch()
+.catch(e => {
+  console.log('There has been a problem with your fetch operation: ' + e.message);
+});
+```
+Isso torna o código muito mais simples e fácil de entender - sem mais `.then()` em todos os lugares!
+
+É possível refatorar o código para usar uma abordagem híbrida de `promises` e `await`, trazendo a segunda metade da função para um novo bloco para torná-lo mais flexível:
+
+```javascript
+async function myFetch() {
+  let response = await fetch('coffee.jpg');
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  } else {
+    return await response.blob();
+  }
+}
+
+myFetch().then((blob) => {
+  let objectURL = URL.createObjectURL(blob);
+  let image = document.createElement('img');
+  image.src = objectURL;
+  document.body.appendChild(image);
+}).catch(e => console.log(e));
+```
+
+### Adicionando tratamento de erros
+
+```javascript
+async function myFetch() {
+  try {
+    let response = await fetch('coffee.jpg');
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    } else {
+      let myBlob = await response.blob();
+      let objectURL = URL.createObjectURL(myBlob);
+      let image = document.createElement('img');
+      image.src = objectURL;
+      document.body.appendChild(image);
+    }
+  } catch(e) {
+    console.log(e);
+  }
+}
+
+myFetch();
+```
+
+### Async/await com Promise.all()
+
+```javascript
+async function fetchAndDecode(url, type) {
+  let response = await fetch(url);
+
+  let content;
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  } else {
+    if(type === 'blob') {
+      content = await response.blob();
+    } else if(type === 'text') {
+      content = await response.text();
+    }
+
+    return content;
+  }
+}
+
+async function displayContent() {
+  let coffee = fetchAndDecode('coffee.jpg', 'blob');
+  let tea = fetchAndDecode('tea.jpg', 'blob');
+  let description = fetchAndDecode('description.txt', 'text');
+
+  let values = await Promise.all([coffee, tea, description]);
+
+  let objectURL1 = URL.createObjectURL(values[0]);
+  let objectURL2 = URL.createObjectURL(values[1]);
+  let descText = values[2];
+
+  let image1 = document.createElement('img');
+  let image2 = document.createElement('img');
+  image1.src = objectURL1;
+  image2.src = objectURL2;
+  document.body.appendChild(image1);
+  document.body.appendChild(image2);
+
+  let para = document.createElement('p');
+  para.textContent = descText;
+  document.body.appendChild(para);
+}
+
+displayContent()
+.catch((e) =>
+  console.log(e)
+);
+
+let values = await Promise.all([coffee, tea, description]);
+```
+
+Para tratamento de erros, incluímos um `.catch()` em nossa `displayContent()`, isso manipulará erros que ocorrem nas duas funções.
+
+Utilizando um `.finally()`
+
+```javascript
+async function fetchAndDecode(url, type) {
+  try {
+    let response = await fetch(url);
+    let content;
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    } else {
+      if(type === 'blob') {
+        content = await response.blob();
+      } else if(type === 'text') {
+        content = await response.text();
+      }
+
+      return content;
+    }
+
+  } finally {
+    console.log(`fetch attempt for "${url}" finished.`);
+  };
+}
+```
+
+### Atenuando o problema do `async/await`
+
+```javascript
+function timeoutPromise(interval) {
+  return new Promise((resolve, reject) => {
+    setTimeout(function(){
+      resolve("done");
+    }, interval);
+  });
+};
+
+async function timeTest() {
+  ...
+}
+
+let startTime = Date.now();
+
+timeTest().then(() => {
+  let finishTime = Date.now();
+  let timeTaken = finishTime - startTime;
+  alert("Time taken in milliseconds: " + timeTaken);
+})
+
+async function timeTest() {
+  await timeoutPromise(3000);
+  await timeoutPromise(3000);
+  await timeoutPromise(3000);
+}
+
+async function timeTest() {
+  const timeoutPromise1 = timeoutPromise(3000);
+  const timeoutPromise2 = timeoutPromise(3000);
+  const timeoutPromise3 = timeoutPromise(3000);
+
+  await timeoutPromise1;
+  await timeoutPromise2;
+  await timeoutPromise3;
+}
+```
