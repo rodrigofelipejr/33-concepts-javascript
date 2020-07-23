@@ -1272,10 +1272,7 @@ function testPromise() {
   let thisPromiseCount = ++promiseCount;
 
   const log = document.getElementById("log");
-  log.insertAdjacentHTML(
-    "beforeend",
-    thisPromiseCount + ") Started (<small>Sync code started</small>)<br/>"
-  );
+  log.insertAdjacentHTML("beforeend", thisPromiseCount + ") Started (<small>Sync code started</small>)<br/>");
 
   // Criamos uma nova promise: prometemos a contagem dessa promise (após aguardar 3s)
   const p1 = new Promise(
@@ -1284,8 +1281,7 @@ function testPromise() {
     function (resolve, reject) {
       log.insertAdjacentHTML(
         "beforeend",
-        thisPromiseCount +
-          ") Promise started (<small>Async code started</small>)<br/>"
+        thisPromiseCount + ") Promise started (<small>Async code started</small>)<br/>"
       );
       // Isto é apenas um exemplo para criar assincronismo
       window.setTimeout(function () {
@@ -1299,18 +1295,11 @@ function testPromise() {
   p1.then(
     // apenas logamos a mensagem e o valor
     function (val) {
-      log.insertAdjacentHTML(
-        "beforeend",
-        val + ") Promise fulfilled (<small>Async code terminated</small>)<br/>"
-      );
+      log.insertAdjacentHTML("beforeend", val + ") Promise fulfilled (<small>Async code terminated</small>)<br/>");
     }
   );
 
-  log.insertAdjacentHTML(
-    "beforeend",
-    thisPromiseCount +
-      ") Promise made (<small>Sync code terminated</small>)<br/>"
-  );
+  log.insertAdjacentHTML("beforeend", thisPromiseCount + ") Promise made (<small>Sync code terminated</small>)<br/>");
 }
 ```
 
@@ -1333,24 +1322,30 @@ Primeiro, temos a `async` palavra-chave, que você coloca na frente de uma decla
 
 ```javascript
 // sync
-function hello() { return "Hello" };
+function hello() {
+  return "Hello";
+}
 hello();
 ```
 
-Saída: 
+Saída:
+
 ```javascript
-"Hello"
+"Hello";
 ```
 
 Ao invocar a função `async` é retornada uma promessa. Essa é uma das características das funções assíncronas - seus valores de retorno são garantidos para serem convertidos em promessas.
 
 ```javascript
 // async
-async function hello() { return "Hello" };
+async function hello() {
+  return "Hello";
+}
 hello();
 ```
 
-Saída: 
+Saída:
+
 ```javascript
 Promise {<fulfilled>: "Hello"}
 ```
@@ -1358,67 +1353,71 @@ Promise {<fulfilled>: "Hello"}
 ### Outras formas de declarar uma função `async`
 
 ```javascript
-let hello = async function() { return "Hello" };
+let hello = async function () {
+  return "Hello";
+};
 hello();
 ```
 
 ```javascript
-let hello = async () => { return "Hello" };
+let hello = async () => {
+  return "Hello";
+};
 ```
 
 Para realmente consumir o valor retornado quando a promessa é cumprida, já que está retornando uma promessa, podemos usar um `.then()`:
 
 ```javascript
-hello().then((value) => console.log(value))
+hello().then((value) => console.log(value));
 
 // ou mesmo
 
-hello().then(console.log)
+hello().then(console.log);
 ```
 
-A vantagem real das funções assíncronas se torna aparente quando você a combina com a palavra-chave `await`, que só funciona dentro de funções assíncronas. 
+A vantagem real das funções assíncronas se torna aparente quando você a combina com a palavra-chave `await`, que só funciona dentro de funções assíncronas.
 
-Isso pode ser colocado na frente de qualquer função assíncrona baseada em promessa para pausar seu código nessa linha até que a promessa seja cumprida e, em seguida, retornar o valor resultante. 
+Isso pode ser colocado na frente de qualquer função assíncrona baseada em promessa para pausar seu código nessa linha até que a promessa seja cumprida e, em seguida, retornar o valor resultante.
 
 Enquanto isso, outro código que pode estar aguardando uma chance de executar pode ser processado.
 
 ```javascript
 async function hello() {
-  return greeting = await Promise.resolve("Hello");
-};
+  return (greeting = await Promise.resolve("Hello"));
+}
 
 hello().then(alert);
 ```
 
-### Reescrevendo o código com *promise* para *async/await*
+### Reescrevendo o código com _promise_ para _async/await_
 
 Com promise:
 
 ```javascript
-fetch('coffee.jpg')
-.then(response => {
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  } else {
-    return response.blob();
-  }
-})
-.then(myBlob => {
-  let objectURL = URL.createObjectURL(myBlob);
-  let image = document.createElement('img');
-  image.src = objectURL;
-  document.body.appendChild(image);
-})
-.catch(e => {
-  console.log('There has been a problem with your fetch operation: ' + e.message);
-});
+fetch("coffee.jpg")
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    } else {
+      return response.blob();
+    }
+  })
+  .then((myBlob) => {
+    let objectURL = URL.createObjectURL(myBlob);
+    let image = document.createElement("img");
+    image.src = objectURL;
+    document.body.appendChild(image);
+  })
+  .catch((e) => {
+    console.log("There has been a problem with your fetch operation: " + e.message);
+  });
 ```
 
 Com async/await:
 
 ```javascript
 async function myFetch() {
-  let response = await fetch('coffee.jpg');
+  let response = await fetch("coffee.jpg");
 
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -1426,24 +1425,24 @@ async function myFetch() {
     let myBlob = await response.blob();
 
     let objectURL = URL.createObjectURL(myBlob);
-    let image = document.createElement('img');
+    let image = document.createElement("img");
     image.src = objectURL;
     document.body.appendChild(image);
   }
 }
 
-myFetch()
-.catch(e => {
-  console.log('There has been a problem with your fetch operation: ' + e.message);
+myFetch().catch((e) => {
+  console.log("There has been a problem with your fetch operation: " + e.message);
 });
 ```
+
 Isso torna o código muito mais simples e fácil de entender - sem mais `.then()` em todos os lugares!
 
 É possível refatorar o código para usar uma abordagem híbrida de `promises` e `await`, trazendo a segunda metade da função para um novo bloco para torná-lo mais flexível:
 
 ```javascript
 async function myFetch() {
-  let response = await fetch('coffee.jpg');
+  let response = await fetch("coffee.jpg");
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   } else {
@@ -1451,12 +1450,14 @@ async function myFetch() {
   }
 }
 
-myFetch().then((blob) => {
-  let objectURL = URL.createObjectURL(blob);
-  let image = document.createElement('img');
-  image.src = objectURL;
-  document.body.appendChild(image);
-}).catch(e => console.log(e));
+myFetch()
+  .then((blob) => {
+    let objectURL = URL.createObjectURL(blob);
+    let image = document.createElement("img");
+    image.src = objectURL;
+    document.body.appendChild(image);
+  })
+  .catch((e) => console.log(e));
 ```
 
 ### Adicionando tratamento de erros
@@ -1464,18 +1465,18 @@ myFetch().then((blob) => {
 ```javascript
 async function myFetch() {
   try {
-    let response = await fetch('coffee.jpg');
+    let response = await fetch("coffee.jpg");
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     } else {
       let myBlob = await response.blob();
       let objectURL = URL.createObjectURL(myBlob);
-      let image = document.createElement('img');
+      let image = document.createElement("img");
       image.src = objectURL;
       document.body.appendChild(image);
     }
-  } catch(e) {
+  } catch (e) {
     console.log(e);
   }
 }
@@ -1494,9 +1495,9 @@ async function fetchAndDecode(url, type) {
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   } else {
-    if(type === 'blob') {
+    if (type === "blob") {
       content = await response.blob();
-    } else if(type === 'text') {
+    } else if (type === "text") {
       content = await response.text();
     }
 
@@ -1505,9 +1506,9 @@ async function fetchAndDecode(url, type) {
 }
 
 async function displayContent() {
-  let coffee = fetchAndDecode('coffee.jpg', 'blob');
-  let tea = fetchAndDecode('tea.jpg', 'blob');
-  let description = fetchAndDecode('description.txt', 'text');
+  let coffee = fetchAndDecode("coffee.jpg", "blob");
+  let tea = fetchAndDecode("tea.jpg", "blob");
+  let description = fetchAndDecode("description.txt", "text");
 
   let values = await Promise.all([coffee, tea, description]);
 
@@ -1515,22 +1516,19 @@ async function displayContent() {
   let objectURL2 = URL.createObjectURL(values[1]);
   let descText = values[2];
 
-  let image1 = document.createElement('img');
-  let image2 = document.createElement('img');
+  let image1 = document.createElement("img");
+  let image2 = document.createElement("img");
   image1.src = objectURL1;
   image2.src = objectURL2;
   document.body.appendChild(image1);
   document.body.appendChild(image2);
 
-  let para = document.createElement('p');
+  let para = document.createElement("p");
   para.textContent = descText;
   document.body.appendChild(para);
 }
 
-displayContent()
-.catch((e) =>
-  console.log(e)
-);
+displayContent().catch((e) => console.log(e));
 
 let values = await Promise.all([coffee, tea, description]);
 ```
@@ -1548,18 +1546,17 @@ async function fetchAndDecode(url, type) {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     } else {
-      if(type === 'blob') {
+      if (type === "blob") {
         content = await response.blob();
-      } else if(type === 'text') {
+      } else if (type === "text") {
         content = await response.text();
       }
 
       return content;
     }
-
   } finally {
     console.log(`fetch attempt for "${url}" finished.`);
-  };
+  }
 }
 ```
 
@@ -1613,278 +1610,266 @@ async function timeTest() {
 
 ## Estrutura dos dados
 
-Estruturas de dados *(Data Structures)* é o nome dado a organização de dados e algoritmos de forma coerente e racional de modo a otimizar o seu uso. De acordo com o modo como um conjunto de dados são organizados e como as operações que são efetuadas sobre estes dados pode-se solucionar de forma simples problemas extremamente complexos.
+Estruturas de dados _(Data Structures)_ é o nome dado a organização de dados e algoritmos de forma coerente e racional de modo a otimizar o seu uso. De acordo com o modo como um conjunto de dados são organizados e como as operações que são efetuadas sobre estes dados pode-se solucionar de forma simples problemas extremamente complexos.
 
-Existem diversos modelos de estruturas de dados, e novos modelos são criados constantemente pois acompanham também a evolução dos algoritmos e das linguagens de programação. 
+Existem diversos modelos de estruturas de dados, e novos modelos são criados constantemente pois acompanham também a evolução dos algoritmos e das linguagens de programação.
 
 ### Stacks (Pilhas)
 
-Indiscutivelmente o mais importante `Stack` no JavaScript é a `pilha de chamadas`, onde colocamos o escopo de a function sempre que o executamos. 
+Indiscutivelmente o mais importante `Stack` no JavaScript é a `pilha de chamadas`, onde colocamos o escopo de a function sempre que o executamos.
 
-Programaticamente, é apenas um array com duas operações de princípios: `push` e `pop`. O `Push` adiciona elementos à parte superior da matriz, enquanto o `Pop` os remove do mesmo local. Em outras palavras, as pilhas seguem o protocolo *“Last In, First Out”* `(LIFO)`.
+Programaticamente, é apenas um array com duas operações de princípios: `push` e `pop`. O `Push` adiciona elementos à parte superior da matriz, enquanto o `Pop` os remove do mesmo local. Em outras palavras, as pilhas seguem o protocolo _“Last In, First Out”_ `(LIFO)`.
 
 ```javascript
-const pilha = []
+const pilha = [];
 
-pilha.push(0)
-pilha.push(1)
+pilha.push(0);
+pilha.push(1);
 
-console.log(pilha) // [0, 1]
+console.log(pilha); // [0, 1]
 
-pilha.push(2)
-pilha.push(3)
+pilha.push(2);
+pilha.push(3);
 
-pilha.pop()
+pilha.pop();
 
-console.log(pilha) // [0, 1, 2]
+console.log(pilha); // [0, 1, 2]
 ```
 
 Invertendo...
 
 ```javascript
-const pilha = []
+const pilha = [];
 
-pilha.unshift(0)
-pilha.unshift(1)
+pilha.unshift(0);
+pilha.unshift(1);
 
-console.log(pilha) // [1, 0]
+console.log(pilha); // [1, 0]
 
-pilha.unshift(2)
-pilha.unshift(3)
+pilha.unshift(2);
+pilha.unshift(3);
 
-pilha.shift()
+pilha.shift();
 
-console.log(pilha) // [2, 1, 0]
+console.log(pilha); // [2, 1, 0]
 ```
 
 ### Queues (Filas)
 
 Programaticamente, `Queues` são apenas matrizes com duas operações principais: `unshift` e `pop`.
 
-O `Unshift` enfileira itens no final da matriz, enquanto `Pop` remove da fila os itens do início da matriz. Em outras palavras, as filas seguem o protocolo *“First In, First Out”* `(FIFO)`. 
+O `Unshift` enfileira itens no final da matriz, enquanto `Pop` remove da fila os itens do início da matriz. Em outras palavras, as filas seguem o protocolo _“First In, First Out”_ `(FIFO)`.
 
 Se a direção for invertida, podemos substituir `unshift` e `pop` por `push` e `shift`, respectivamente.
 
 ```javascript
-const fila = []
+const fila = [];
 
-pilha.push(0)
-pilha.push(1)
+pilha.push(0);
+pilha.push(1);
 
-console.log(pilha) // [0, 1]
+console.log(pilha); // [0, 1]
 
-pilha.push(2)
-pilha.push(3)
+pilha.push(2);
+pilha.push(3);
 
-pilha.shift()
+pilha.shift();
 
-console.log(pilha) // [1, 2, 3]
+console.log(pilha); // [1, 2, 3]
 ```
 
 ### Linked List (Lista vinculada)
 
-Como matrizes, `Linked Lists` armazena elementos de dados em ordem sequencial. Em vez de manter índices, as listas vinculadas mantêm ponteiros para outros elementos. O primeiro nó é chamado de `cabeça`, enquanto o último nó é chamado de `cauda`. 
+Como matrizes, `Linked Lists` armazena elementos de dados em ordem sequencial. Em vez de manter índices, as listas vinculadas mantêm ponteiros para outros elementos. O primeiro nó é chamado de `cabeça`, enquanto o último nó é chamado de `cauda`.
 
 Em uma `lista vinculada individualmente`, cada nó possui apenas um ponteiro para o próximo nó. Já em uma lista `duplamente vinculada`, também é mantido um ponteiro para o nó anterior. O que nos permite também começar pela cauda e andar "para trás" em direção à cabeça.
 
 ```javascript
 class Node {
-	constructor(value, next, prev) {
-		this.value = value;
-		this.next = next;
-		this.prev = prev;
-	}
+  constructor(value, next, prev) {
+    this.value = value;
+    this.next = next;
+    this.prev = prev;
+  }
 }
 
 class LinkedList {
-	constructor() {
-		this.head = null;
-		this.tail = null;
-	}
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
 
-	addToHead(value) {
-		const node = new Node(value, null, this.head);
-   
-    if (this.head) 
-      this.head.next = node;
-    else 
-      this.tail = node;
-    
+  addToHead(value) {
+    const node = new Node(value, null, this.head);
+
+    if (this.head) this.head.next = node;
+    else this.tail = node;
+
     this.head = node;
-	}
+  }
 
-	addToTail(value) {
+  addToTail(value) {
     const node = new Node(value, this.tail, null);
-    
-    if (this.tail) 
-      this.tail.prev = node;
-    else 
-      this.head = node;
-    
+
+    if (this.tail) this.tail.prev = node;
+    else this.head = node;
+
     this.tail = node;
-	}
+  }
 
-	removeHead() {
-    if (!this.head) 
-      return null;
-    
-		const value = this.head.value;
-		this.head = this.head.prev;
-    
-    if (this.head) 
-      this.head.next = null;
-    else 
-      this.tail = null;
-    
+  removeHead() {
+    if (!this.head) return null;
+
+    const value = this.head.value;
+    this.head = this.head.prev;
+
+    if (this.head) this.head.next = null;
+    else this.tail = null;
+
     return value;
-	}
+  }
 
-	removeTail() {
-    if (!this.tail) 
-      return null;
-    
+  removeTail() {
+    if (!this.tail) return null;
+
     const value = this.tail.value;
-		this.tail = this.tail.next;
-    
-    if (this.tail) 
-      this.tail.prev = null;
-    else 
-      this.head = null;
-    
-    return value;
-	}
+    this.tail = this.tail.next;
 
-	search(value) {
-		let current = this.head;
-    
+    if (this.tail) this.tail.prev = null;
+    else this.head = null;
+
+    return value;
+  }
+
+  search(value) {
+    let current = this.head;
+
     while (current) {
-      if (current.value === value) 
-        return value;
-      
+      if (current.value === value) return value;
+
       current = current.prev;
     }
-    
-		return null;
-	}
 
-	indexOf(value) {
-		const indexes = [];
-		let current = this.tail;
+    return null;
+  }
+
+  indexOf(value) {
+    const indexes = [];
+    let current = this.tail;
     let index = 0;
-    
-		while (current) {
-      if (current.value === value) 
-        indexes.push(index);
-      
+
+    while (current) {
+      if (current.value === value) indexes.push(index);
+
       current = current.next;
-			index++;
+      index++;
     }
-    
-		return indexes;
-	}
+
+    return indexes;
+  }
 }
 
 mocha.setup("bdd");
 const { assert } = chai;
 
 describe("Linked List", () => {
-	it("Should add to head", () => {
-		const list = new LinkedList();
-		list.addToHead(1);
-		list.addToHead(2);
-		list.addToHead(3);
-		assert.equal(list.tail.prev, null);
-		assert.equal(list.tail.value, 1);
-		assert.equal(list.tail.next.value, 2);
-		assert.equal(list.head.prev.value, 2);
-		assert.equal(list.head.value, 3);
-		assert.equal(list.head.next, null);
-		assert.equal(list.head.prev.prev.value, 1);
-		assert.equal(list.tail.next.next.value, 3);
-	});
+  it("Should add to head", () => {
+    const list = new LinkedList();
+    list.addToHead(1);
+    list.addToHead(2);
+    list.addToHead(3);
+    assert.equal(list.tail.prev, null);
+    assert.equal(list.tail.value, 1);
+    assert.equal(list.tail.next.value, 2);
+    assert.equal(list.head.prev.value, 2);
+    assert.equal(list.head.value, 3);
+    assert.equal(list.head.next, null);
+    assert.equal(list.head.prev.prev.value, 1);
+    assert.equal(list.tail.next.next.value, 3);
+  });
 
-	it("Should add to tail", () => {
-		const list = new LinkedList();
-		list.addToTail(1);
-		list.addToTail(2);
-		list.addToTail(3);
-		assert.equal(list.tail.prev, null);
-		assert.equal(list.tail.value, 3);
-		assert.equal(list.tail.next.value, 2);
-		assert.equal(list.head.prev.value, 2);
-		assert.equal(list.head.value, 1);
-		assert.equal(list.head.next, null);
-		assert.equal(list.head.prev.prev.value, 3);
-		assert.equal(list.tail.next.next.value, 1);
-	});
+  it("Should add to tail", () => {
+    const list = new LinkedList();
+    list.addToTail(1);
+    list.addToTail(2);
+    list.addToTail(3);
+    assert.equal(list.tail.prev, null);
+    assert.equal(list.tail.value, 3);
+    assert.equal(list.tail.next.value, 2);
+    assert.equal(list.head.prev.value, 2);
+    assert.equal(list.head.value, 1);
+    assert.equal(list.head.next, null);
+    assert.equal(list.head.prev.prev.value, 3);
+    assert.equal(list.tail.next.next.value, 1);
+  });
 
-	it("Should remove head", () => {
-		const list = new LinkedList();
-		list.addToHead(1);
-		list.addToHead(2);
-		list.addToHead(3);
-		assert.equal(list.removeHead(), 3);
-		assert.equal(list.head.value, 2);
-		assert.equal(list.tail.value, 1);
-		assert.equal(list.tail.next.value, 2);
-		assert.equal(list.head.prev.value, 1);
-		assert.equal(list.head.next, null);
-		assert.equal(list.removeHead(), 2);
-		assert.equal(list.head.value, 1);
-		assert.equal(list.tail.value, 1);
-		assert.equal(list.tail.next, null);
-		assert.equal(list.head.prev, null);
-		assert.equal(list.head.next, null);
-		assert.equal(list.removeHead(), 1);
-		assert.equal(list.head, null);
-		assert.equal(list.tail, null);
-	});
+  it("Should remove head", () => {
+    const list = new LinkedList();
+    list.addToHead(1);
+    list.addToHead(2);
+    list.addToHead(3);
+    assert.equal(list.removeHead(), 3);
+    assert.equal(list.head.value, 2);
+    assert.equal(list.tail.value, 1);
+    assert.equal(list.tail.next.value, 2);
+    assert.equal(list.head.prev.value, 1);
+    assert.equal(list.head.next, null);
+    assert.equal(list.removeHead(), 2);
+    assert.equal(list.head.value, 1);
+    assert.equal(list.tail.value, 1);
+    assert.equal(list.tail.next, null);
+    assert.equal(list.head.prev, null);
+    assert.equal(list.head.next, null);
+    assert.equal(list.removeHead(), 1);
+    assert.equal(list.head, null);
+    assert.equal(list.tail, null);
+  });
 
-	it("Should remove tail", () => {
-		const list = new LinkedList();
-		list.addToTail(1);
-		list.addToTail(2);
-		list.addToTail(3);
-		assert.equal(list.removeTail(), 3);
-		assert.equal(list.head.value, 1);
-		assert.equal(list.tail.value, 2);
-		assert.equal(list.tail.next.value, 1);
-		assert.equal(list.head.prev.value, 2);
-		assert.equal(list.tail.prev, null);
-		assert.equal(list.removeTail(), 2);
-		assert.equal(list.head.value, 1);
-		assert.equal(list.tail.value, 1);
-		assert.equal(list.tail.next, null);
-		assert.equal(list.head.prev, null);
-		assert.equal(list.tail.prev, null);
-		assert.equal(list.removeTail(), 1);
-		assert.equal(list.head, null);
-		assert.equal(list.tail, null);
-	});
+  it("Should remove tail", () => {
+    const list = new LinkedList();
+    list.addToTail(1);
+    list.addToTail(2);
+    list.addToTail(3);
+    assert.equal(list.removeTail(), 3);
+    assert.equal(list.head.value, 1);
+    assert.equal(list.tail.value, 2);
+    assert.equal(list.tail.next.value, 1);
+    assert.equal(list.head.prev.value, 2);
+    assert.equal(list.tail.prev, null);
+    assert.equal(list.removeTail(), 2);
+    assert.equal(list.head.value, 1);
+    assert.equal(list.tail.value, 1);
+    assert.equal(list.tail.next, null);
+    assert.equal(list.head.prev, null);
+    assert.equal(list.tail.prev, null);
+    assert.equal(list.removeTail(), 1);
+    assert.equal(list.head, null);
+    assert.equal(list.tail, null);
+  });
 
-	it("Should search for value", () => {
-		const list = new LinkedList();
-		list.addToHead(1);
-		list.addToHead(2);
-		list.addToHead(3);
-		assert.equal(list.search(1), 1);
-		assert.equal(list.search(2), 2);
-		assert.equal(list.search(3), 3);
-		assert.equal(list.search(4), null);
-	});
+  it("Should search for value", () => {
+    const list = new LinkedList();
+    list.addToHead(1);
+    list.addToHead(2);
+    list.addToHead(3);
+    assert.equal(list.search(1), 1);
+    assert.equal(list.search(2), 2);
+    assert.equal(list.search(3), 3);
+    assert.equal(list.search(4), null);
+  });
 
-	it("Should search for indexes of value", () => {
-		const list = new LinkedList();
-		list.addToTail(1);
-		list.addToTail(2);
-		list.addToTail(3);
-		list.addToTail(3);
-		list.addToTail(1);
-		assert.deepEqual(list.indexOf(1), [0, 4]);
-		assert.deepEqual(list.indexOf(2), [3]);
-		assert.deepEqual(list.indexOf(3), [1, 2]);
-		assert.deepEqual(list.indexOf(4), []);
-	});
+  it("Should search for indexes of value", () => {
+    const list = new LinkedList();
+    list.addToTail(1);
+    list.addToTail(2);
+    list.addToTail(3);
+    list.addToTail(3);
+    list.addToTail(1);
+    assert.deepEqual(list.indexOf(1), [0, 4]);
+    assert.deepEqual(list.indexOf(2), [3]);
+    assert.deepEqual(list.indexOf(3), [1, 2]);
+    assert.deepEqual(list.indexOf(4), []);
+  });
 });
 
 mocha.run();
@@ -1892,72 +1877,72 @@ mocha.run();
 
 ### Tree (Árvore)
 
-A `Tree` é como uma lista vinculada, com uma diferença, um nó  pai mantém referências a muitos nós filhos em uma estrutura hierárquica. Em outras palavras, cada nó não pode ter mais que um pai. 
+A `Tree` é como uma lista vinculada, com uma diferença, um nó pai mantém referências a muitos nós filhos em uma estrutura hierárquica. Em outras palavras, cada nó não pode ter mais que um pai.
 
-O *Document Object Model (DOM)* é uma estrutura desse tipo, com um html nó raiz que se ramifica nos nós `head` e `body`, que subdividem ainda mais em todas as marcas html familiares. 
+O _Document Object Model (DOM)_ é uma estrutura desse tipo, com um html nó raiz que se ramifica nos nós `head` e `body`, que subdividem ainda mais em todas as marcas html familiares.
 
 Sob o capô, a herança prototípica e a composição com os componentes `React` também produzem estruturas de árvores. Obviamente, como uma representação na memória do DOM, o `DOM Virtual` do React também é uma estrutura em árvore.
 
-A `Árvore de Pesquisa Binária` é especial porque cada nó pode ter não mais que dois filhos. O **filho esquerdo** deve ter um valor menor ou igual ao pai, enquanto o **filho direito** deve ter um valor maior. Estruturados e equilibrados dessa maneira, podemos procurar qualquer valor em tempo logarítmico, porque podemos ignorar metade da ramificação a cada iteração. 
+A `Árvore de Pesquisa Binária` é especial porque cada nó pode ter não mais que dois filhos. O **filho esquerdo** deve ter um valor menor ou igual ao pai, enquanto o **filho direito** deve ter um valor maior. Estruturados e equilibrados dessa maneira, podemos procurar qualquer valor em tempo logarítmico, porque podemos ignorar metade da ramificação a cada iteração.
 
 A inserção e exclusão também podem ocorrer em tempo logarítmico. Além disso, o menor e maior valor pode ser facilmente encontrado na extremidade esquerdae folha mais à direita , respectivamente.
 
 ```javascript
 class Tree {
-	constructor(value) {
-		this.value = value;
-		this.left = null;
-		this.right = null;
-	}
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
 
-	insert(value) {
-		if (value <= this.value) {
-			if (!this.left) this.left = new Tree(value);
-			else this.left.insert(value);
-		} else {
-			if (!this.right) this.right = new Tree(value);
-			else this.right.insert(value);
-		}
-	}
+  insert(value) {
+    if (value <= this.value) {
+      if (!this.left) this.left = new Tree(value);
+      else this.left.insert(value);
+    } else {
+      if (!this.right) this.right = new Tree(value);
+      else this.right.insert(value);
+    }
+  }
 
-	contains(value) {
-		if (value === this.value) return true;
-		if (value < this.value) {
-			if (!this.left) return false;
-			else return this.left.contains(value);
-		} else {
-			if (!this.right) return false;
-			else return this.right.contains(value);
-		}
-	}
+  contains(value) {
+    if (value === this.value) return true;
+    if (value < this.value) {
+      if (!this.left) return false;
+      else return this.left.contains(value);
+    } else {
+      if (!this.right) return false;
+      else return this.right.contains(value);
+    }
+  }
 
-	depthFirstTraverse(order, callback) {
-		order === "pre" && callback(this.value);
-		this.left && this.left.depthFirstTraverse(order, callback);
-		order === "in" && callback(this.value);
-		this.right && this.right.depthFirstTraverse(order, callback);
-		order === "post" && callback(this.value);
-	}
+  depthFirstTraverse(order, callback) {
+    order === "pre" && callback(this.value);
+    this.left && this.left.depthFirstTraverse(order, callback);
+    order === "in" && callback(this.value);
+    this.right && this.right.depthFirstTraverse(order, callback);
+    order === "post" && callback(this.value);
+  }
 
-	breadthFirstTraverse(callback) {
-		const queue = [this];
-		while (queue.length) {
-			const root = queue.shift();
-			callback(root.value);
-			root.left && queue.push(root.left);
-			root.right && queue.push(root.right);
-		}
-	}
+  breadthFirstTraverse(callback) {
+    const queue = [this];
+    while (queue.length) {
+      const root = queue.shift();
+      callback(root.value);
+      root.left && queue.push(root.left);
+      root.right && queue.push(root.right);
+    }
+  }
 
-	getMinValue() {
-		if (this.left) return this.left.getMinValue();
-		return this.value;
-	}
+  getMinValue() {
+    if (this.left) return this.left.getMinValue();
+    return this.value;
+  }
 
-	getMaxValue() {
-		if (this.right) return this.right.getMaxValue();
-		return this.value;
-	}
+  getMaxValue() {
+    if (this.right) return this.right.getMaxValue();
+    return this.value;
+  }
 }
 
 mocha.setup("bdd");
@@ -1971,57 +1956,201 @@ for (const value of [3, 6, 1, 7, 8, 4, 10, 2, 9]) tree.insert(value);
  3 6
 1 4 7
  2   8
-		  10
-		 9	
+    10
+   9
 */
 
 describe("Binary Search Tree", () => {
-	it("Should implement insert", () => {
-		assert.equal(tree.value, 5);
-		assert.equal(tree.left.value, 3);
-		assert.equal(tree.right.value, 6);
-		assert.equal(tree.left.left.value, 1);
-		assert.equal(tree.right.right.value, 7);
-		assert.equal(tree.right.right.right.value, 8);
-		assert.equal(tree.left.right.value, 4);
-		assert.equal(tree.right.right.right.right.value, 10);
-		assert.equal(tree.left.left.right.value, 2);
-		assert.equal(tree.right.right.right.right.left.value, 9);
-	});
+  it("Should implement insert", () => {
+    assert.equal(tree.value, 5);
+    assert.equal(tree.left.value, 3);
+    assert.equal(tree.right.value, 6);
+    assert.equal(tree.left.left.value, 1);
+    assert.equal(tree.right.right.value, 7);
+    assert.equal(tree.right.right.right.value, 8);
+    assert.equal(tree.left.right.value, 4);
+    assert.equal(tree.right.right.right.right.value, 10);
+    assert.equal(tree.left.left.right.value, 2);
+    assert.equal(tree.right.right.right.right.left.value, 9);
+  });
 
-	it("Should implement contains", () => {
-		assert.equal(tree.contains(2), true);
-		assert.equal(tree.contains(9), true);
-		assert.equal(tree.contains(0), false);
-		assert.equal(tree.contains(11), false);
-	});
+  it("Should implement contains", () => {
+    assert.equal(tree.contains(2), true);
+    assert.equal(tree.contains(9), true);
+    assert.equal(tree.contains(0), false);
+    assert.equal(tree.contains(11), false);
+  });
 
-	it("Should implement depthFirstTraverse", () => {
-		const _pre = [];
-		const _in = [];
-		const _post = [];
-		tree.depthFirstTraverse("pre", value => _pre.push(value));
-		tree.depthFirstTraverse("in", value => _in.push(value));
-		tree.depthFirstTraverse("post", value => _post.push(value));
-		assert.deepEqual(_pre, [5, 3, 1, 2, 4, 6, 7, 8, 10, 9]);
-		assert.deepEqual(_in, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-		assert.deepEqual(_post, [2, 1, 4, 3, 9, 10, 8, 7, 6, 5]);
-	});
+  it("Should implement depthFirstTraverse", () => {
+    const _pre = [];
+    const _in = [];
+    const _post = [];
+    tree.depthFirstTraverse("pre", (value) => _pre.push(value));
+    tree.depthFirstTraverse("in", (value) => _in.push(value));
+    tree.depthFirstTraverse("post", (value) => _post.push(value));
+    assert.deepEqual(_pre, [5, 3, 1, 2, 4, 6, 7, 8, 10, 9]);
+    assert.deepEqual(_in, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+    assert.deepEqual(_post, [2, 1, 4, 3, 9, 10, 8, 7, 6, 5]);
+  });
 
-	it("Should implement breadthDepthTraverse", () => {
-		const result = [];
-		tree.breadthFirstTraverse(value => result.push(value));
-		assert.deepEqual(result, [5, 3, 6, 1, 4, 7, 2, 8, 10, 9]);
-	});
+  it("Should implement breadthDepthTraverse", () => {
+    const result = [];
+    tree.breadthFirstTraverse((value) => result.push(value));
+    assert.deepEqual(result, [5, 3, 6, 1, 4, 7, 2, 8, 10, 9]);
+  });
 
-	it("Should implement getMinValue", () => {
-		assert.equal(tree.getMinValue(), 1);
-	});
+  it("Should implement getMinValue", () => {
+    assert.equal(tree.getMinValue(), 1);
+  });
 
-	it("Should implement getMaxValue", () => {
-		assert.equal(tree.getMaxValue(), 10);
-	});
+  it("Should implement getMaxValue", () => {
+    assert.equal(tree.getMaxValue(), 10);
+  });
 });
 
 mocha.run();
+```
+
+## Expensive Operation and Big O Notation
+
+Em suma, Big O é a pior curva de crescimento de cenários para a complexidade de um algoritmo. A notação Big O vem duas vezes: Complexidade do tempo e complexidade espacial.
+
+Algumas notações comuns do Big O incluem:
+
+- O(n)
+- O(n²)
+- O(log n)
+
+Big O Exemplos em JS
+
+### O(1)
+
+À medida que a entrada aumenta, o tempo para executar o algoritmo permanece constante. Normalmente é utilizada apenas uma operação.
+
+```javascript
+const firstElemEven = (array) => {
+  return array[0] % 2 === 0 ? true : false;
+};
+```
+
+### O(n)
+
+À medida que a entrada aumenta, o tempo para executar o algoritmo crescerá proporcionalmente.
+
+```javascript
+const hasValue = (array, value) => {
+  for (let i = 0, max = array.length; i < max; i++) {
+    if (array[i] === value) {
+      return true;
+    }
+  }
+  return false;
+};
+```
+
+### O(n²)
+
+À medida que a entrada aumenta, o tempo para executar o algoritmo cresce na velocidade de seu quadrado.
+
+Isso é frequentemente visto com `"para loops" aninhados`, porque o loop interno será executado `'n'` vezes para cada vez que o loop externo for executado. O que torna a complexidade do tempo resultante `n\*n` ou `n²`.
+
+```javascript
+const findMatch = (string) => {
+  for (let i = 0, max = string.length; i < max; i++) {
+    for (let j = i + 1, max = string.length; j < max; j++) {
+      if (string[i] === string[j]) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+```
+
+### O(2^n)
+
+Para cada entrada adicional, o tempo para executar o algoritmo dobra.
+
+```javascript
+const fib = (num) => {
+  if (num <= 1) {
+    return 1;
+  }
+  return fib(num - 1) + fib(num - 2);
+};
+```
+
+### O(log n)
+
+Como mencionado anteriormente, à medida que nossa entrada 'n' aumenta, o tempo aumentará em uma quantidade constante. Mais significativamente, um algoritmo de O(log n) fará metade da entrada cada vez que ele iterar.
+
+```javascript
+Exemplo:
+Árvore de pesquisa binária
+```
+
+### O(n log n)
+
+Para cada entrada, o algoritmo está executando uma operação em O(log n)
+
+```javascript
+const entrada = ["q", "a", "z", "w", "s", "x", "e", "d", "c", "r"];
+function quicksort(entrada) {
+  if (entrada.length < 2) {
+    return entrada;
+  }
+
+  let pivo = entrada[0];
+  let esquerda = [];
+  let direita = [];
+
+  console.log(pivo);
+
+  for (let i = 1, max = entrada.length; i < max; i++) {
+    if (entrada[i] < pivo) {
+      esquerda.push(entrada[i]);
+    } else {
+      direita.push(entrada[i]);
+    }
+  }
+
+  console.log(esquerda, direita);
+  return [...quicksort(esquerda), pivo, ...quicksort(direita)];
+}
+
+console.log(quicksort(entrada));
+```
+
+Saída:
+
+```javascript
+"pivo: q"
+"esquerda:" ["a", "e", "d", "c"]
+"direita:" ["z", "w", "s", "x", "r"]
+
+"pivo: a"
+"esquerda:" []
+"direita:" ["e", "d", "c"]
+
+"pivo: e"
+"esquerda:" ["d", "c"]
+"direita:" []
+
+"pivo: d"
+"esquerda:" ["c"]
+"direita:" []
+
+"pivo: z"
+"esquerda:" ["w", "s", "x", "r"]
+"direita:" []
+
+"pivo: w"
+"esquerda:" ["s", "r"]
+"direita:" ["x"]
+
+"pivo: s"
+"esquerda:" ["r"]
+"direita:" []
+
+["a", "c", "d", "e", "q", "r", "s", "w", "x", "z"]
 ```
