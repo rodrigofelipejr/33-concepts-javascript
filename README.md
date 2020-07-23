@@ -2154,3 +2154,137 @@ Saída:
 
 ["a", "c", "d", "e", "q", "r", "s", "w", "x", "z"]
 ```
+
+## Expensive Operation and Big O Notation (Herança, Polimorfismo e Reutilização de Código)
+
+### Herança
+
+Herança é o conceito no qual, você cria uma nova classe a partir de uma classe já existente.
+Herdando seus atributos e métodos.
+
+Isso ajuda você a escrever menos códigos repetitivos, por exemplo:
+
+```javascript
+function funcao(){
+  return this.valor;
+}
+
+const objeto1 = {
+  getValor: funcao,
+  valor: 30
+};
+
+const objeto2 = {
+  getValor: funcao,
+  valor: 20
+};
+
+const objeto3 = {
+  getValor: funcao,
+  valor: 10
+};
+```
+
+A partir de apenas um objeto podemos extender suas funções para outros objetos.
+
+```javascript
+const pai = {
+  getValor: function funcao(){
+    return this.valor;
+  },
+  valor:10
+};
+
+const filho = Object.create(pai);
+filho.valor = 20;
+
+const neto = Object.create(filho);
+
+pai.getValor(); //retorna 10
+filho.getValor();
+neto.getValor();
+```
+
+### Polimorfismo e override de métodos
+
+Polimorfismo é quando queremos que os filhos se comportem diferente dos seus pais, ou seja, temos os mesmo métodos, com os mesmos nomes mas com diferentes comportamentos.
+
+```javascript
+const pai = {
+  getValor: function funcao(){
+    return this.valor;
+  },
+  valor:10
+};
+
+function outraFuncao(){
+  return this.valor + this.valor;
+}
+
+const filho = Object.create(pai);
+filho.getValor = function outraFuncao(){
+  return this.valor + 5;
+};
+
+filho.valor = 2;
+
+console.log(pai.getValor()); // return 10
+console.log(filho.getValor()); // return 7
+```
+
+Melhorando...
+
+```javascript
+const pai = {
+  getValor: function funcao(){
+    return this.valor;
+  },
+  valor:10
+};
+
+function outraFuncao(){
+  return this.valor + this.valor;
+}
+
+const filho = Object.create(pai);
+filho.getValor = function outraFuncao(){
+  return pai.getValor.call(this) + 5;
+};
+
+filho.valor = 2;
+
+console.log(pai.getValor()); // return 10
+console.log(filho.getValor()); // return 7
+```
+
+Utilizando a função call, ele vai procurar pela implementação do getValor no pai e utilizá-la.
+
+Exemplo final com herança, polimorfismo e override de métodos:
+
+```javascript
+class pai {
+  constructor(cor) {
+    this.cor = cor;
+  }
+  print() {
+    console.log(`A cor é ${this.cor}...`)
+  }
+}
+
+const filho1 = new pai('azul')
+filho1.print() // A cor é azul...
+
+class filho extends pai{}
+
+const filho2 = new filho('amarela')
+filho2.print() // A cor é amarela...
+
+class neto extends filho { // herança
+  print(){ // polimorfismo e override
+    console.log(`A cor é ${this.cor} e muito bonita...`)
+  }
+}
+
+const filho3 = new neto('roxo')
+filho3.print() // A cor é roxo e muito bonita...
+```
