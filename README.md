@@ -2635,3 +2635,136 @@ one == two; //true
 one.setName("Akash");
 two.getName(); //"Akash"
 ```
+
+## Partial Applications, Currying, Compose and Pipe
+
+### Partial Applications (Aplicações parciais)
+
+Aplicações parciais podem ser descritas como uma função que aceita algum número de argumentos, vincula valores a um ou mais desses argumentos e retorna uma nova função que aceita apenas os argumentos não vinculados restantes.
+
+O que isso significa é que, dada qualquer função arbitrária, uma nova função pode ser gerada com um ou mais argumentos "vinculados" ou parcialmente aplicados.
+
+```javascript
+function lista(juncao, ...itens) {
+  const separadorPorVirgula = itens.slice(0, -1).join(", ");
+  const ultimoItem = itens.pop();
+  return `${separadorPorVirgula} ${juncao} ${ultimoItem}`;
+}
+
+function parcial(funcao, juncao) {
+  return (...itens) => {
+    return funcao(juncao, ...itens);
+  };
+}
+
+const listaE = parcial(lista, "e");
+const listaOu = parcial(lista, "ou");
+const listaTalvez = parcial(lista, "talvez");
+
+console.log(listaE("azul", "amarelo", "verde")); // azul, amarelo e verde
+console.log(listaOu("azul", "amarelo", "verde")); // azul, amarelo ou verde
+console.log(listaTalvez("azul", "amarelo", "verde")); // azul, amarelo talvez verde
+```
+
+### Currying
+
+Currying é um processo para reduzir funções de mais de um argumento para funções de um argumento com a ajuda de cálculo lambda.
+
+Na pática é possível transformar uma função em várias funções que recebem como argumento outras funções. Nos permitindo criar várias funções, apartir de uma função base.
+
+Exemplo 1:
+
+```javascript
+const dragao = (nome, tamanho, elemento) => {
+  return `${nome} é um dragão ${tamanho} e cospe ${elemento}`;
+};
+
+console.log(dragao("Mushu", "pequeno", "fogo")); // "Mushu é um dragão pequeno e cospe fogo"
+
+const dragao2 = (nome) => (tamanho) => (elemento) => {
+  return `${nome} é um dragão ${tamanho} e cospe ${elemento}`;
+};
+
+console.log(dragao2("Mushu")("pequeno")("fogo")); // "Mushu é um dragão pequeno e cospe fogo"
+
+const mushu = dragao2("Mushu");
+console.log(mushu("grande")("gelo")); // "Mushu é um dragão grande e cospe gelo"
+console.log(mushu("pesqueno")("fogo")); // "Mushu é um dragão pesqueno e cospe fogo"
+
+const mushuPequeno = mushu("pequeno");
+console.log(mushuPequeno("agua")); // "Mushu é um dragão pequeno e cospe agua"
+```
+
+Exemplo 2:
+
+```javascript
+// Normal function
+function addition(x, y) {
+  return x + y;
+}
+
+// Curried function
+function addition(x) {
+  return function (y) {
+    return x + y;
+  };
+}
+```
+
+### Functional Composition: compose() and pipe()
+
+O `compose()` assume funções como entrada, as conectando de tal forma que os dados fluem da direita para a esquerda e, em seguida, retorna essa função combinada.
+
+O `pipe()` é quase idêntico. A única diferença é que move os dados na direção oposta:.compose()pipe()LEFT --> RIGHT
+
+```javascript
+f(x) = x + 2
+g(x) = 4x
+
+f(g(x)) = 4x + 2
+// or
+g(f(x)) = 4x + 8
+```
+
+`compose()`
+
+```javascript
+f(g(h(x)));
+
+compose(f, g, h);
+```
+
+`pipe()`
+
+```javascript
+f(g(h(x)));
+
+pipe(f, g, h);
+```
+
+Compor uma função utilizando outras funções como argumento.
+
+```javascript
+const incrementar = (x) => x + 1;
+const dobrar = (x) => x * 2;
+const valor = incrementar(3);
+const resultado = dobrar(valor);
+console.log(resultado); // 8
+```
+
+```javascript
+const incrementar = (x) => x + 1;
+const dobrar = (x) => x * 2;
+const valor = 3;
+const resultado = dobrar(incrementar(valor)); // compose()
+console.log(resultado); // 8
+```
+
+```javascript
+const incrementar = (x) => x + 1;
+const dobrar = (x) => x * 2;
+const pipe = (inc, dob) => (args) => dob(inc(args));
+const incrementaEDobra = pipe(incrementar, dobrar);
+const resultado = incrementaEDobra(3); // pipe()
+console.log(resultado); // 8
+```
