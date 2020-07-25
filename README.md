@@ -2768,3 +2768,9 @@ const incrementaEDobra = pipe(incrementar, dobrar);
 const resultado = incrementaEDobra(3); // pipe()
 console.log(resultado); // 8
 ```
+
+## Clean Code
+
+[Clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript#introduction)
+
+[JavaScript Clean Coding Best Practices](https://blog.risingstack.com/javascript-clean-coding-best-practices-node-js-at-scale/)
