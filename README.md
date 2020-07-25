@@ -139,7 +139,7 @@ Para comparações abstratas relacionais `(<=)`, os operandos são primeiro conv
 
 ### `==` (sinal de dois iguais)
 
-- utiliza coerção por tráz
+- utiliza coerção por traz
 - 1º se ambos são do mesmo tipo
 - null == undefined, se for, ele retorna true
 - number == string, se for, ele converte string em number
@@ -220,7 +220,7 @@ if (true) {
 }
 ```
 
-## IIFE, Modules e Namespaces
+## 8 - IIFE, Modules e Namespaces
 
 ### IIFE
 
@@ -323,7 +323,7 @@ import utilitarios from "./script1.js";
 utilitarios(); // está executando o olaMundo exportado como default no script1
 ```
 
-## Message Queue e Event Loop - Fila de eventos e Pilha de eventos
+## 9 - Message Queue e Event Loop - Fila de eventos e Pilha de eventos
 
 ```javascript
 function loopEventos() {
@@ -352,7 +352,7 @@ Saída:
 "e" ?? "d" << callback;
 ```
 
-## settimeout, setinterval e requestanimationframe
+## 10 - settimeout, setinterval e requestanimationframe
 
 ### SetTimeout
 
@@ -411,7 +411,11 @@ setTimout(() => {
 }, 5000);
 ```
 
-### Bitwise Operators, Type Arrays e Array Buffers
+### 11. JavaScript Engines
+
+[JavaScript Engines: The Good Parts™ — Mathias Bynens & Benedikt Meurer](https://www.youtube.com/watch?v=5nmpokoRaZI)
+
+### 12 - Bitwise Operators, Type Arrays e Array Buffers
 
 ```javascript
 console.log(Number(113).toString(2)); // "1110001", convertendo number para binário
@@ -450,7 +454,7 @@ console.log(parseInt(10, 2)); // 2
 
 > Pouco utilizado...?
 
-## DOM e Layout Trees
+## 13 - DOM e Layout Trees
 
 O Modelo de Objeto de Documentos _(do inglês Document Object Model, DOM)_ é uma API definida pelo W3C para representar e interagir com qualquer documento HTML ou XML.
 
@@ -460,7 +464,7 @@ O DOM é uma das APIs mais usadas na Web porque ele permite que cada código rod
 
 Os nós podem ser criados, movidos ou modificados. Listeners de evento podem também ser adicionados aos nós para serem disparados quando um dado evento ocorrer.
 
-## Factories e Class (Fábrica e Classes)
+## 14 - Factories e Class (Fábrica e Classes)
 
 ### Factories
 
@@ -554,7 +558,7 @@ cachorro.dados();
 cachorro.tipoAnimal();
 ```
 
-## this, call, apply e bind
+## 15 - this, call, apply e bind
 
 ### this
 
@@ -651,7 +655,7 @@ let cookBoundToDinner = cook.bind(dinner);
 cookBoundToDinner(); // "bacon"
 ```
 
-## New, Constructor, Instanceof e Instances
+## 16 - New, Constructor, Instanceof e Instances
 
 O operador `new` cria uma instancia de um tipo de objeto definido pelo usuário ou de um dos tipos nativos _(built-in)_ que possuem uma função construtora.
 
@@ -720,7 +724,7 @@ console.log(carro1.cor);
 
 > O nome de construtores deve iniciar em maiúscula, por convenção.
 
-## Prototype Inheritance e Prototype Chain
+## 17 - Prototype Inheritance e Prototype Chain
 
 A prototype é um modelo que exibe a aparência e o comportamento de um aplicativo ou produto no início do ciclo de vida do desenvolvimento.
 
@@ -834,7 +838,7 @@ novaSala.adicionaAluno("João");
 console.log(novaSala.mostrarAlunos()); // [ 'João' ]
 ```
 
-## Object.create e Object.assign
+## 18 - Object.create e Object.assign
 
 ### Object.create
 
@@ -950,7 +954,7 @@ console.log(obj3);
 // expected output: Object { a: 1, b: 2, c: 3, d: 4 }
 ```
 
-## map, reduce, filter
+## 19 - map, reduce, filter
 
 ### map
 
@@ -1003,7 +1007,7 @@ const age = pets
   .reduce((acc, curr, index) => (acc += curr.age), 0);
 ```
 
-## Functional programming (Programação funcional)
+## 20 - Functional programming (Programação funcional)
 
 Entende-se como paradigma uma forma de fazer algo. Ou seja, paradigma de programação é o nome que se dá a maneira como
 se programa, a orientação que seus códigos irão ter.
@@ -1060,9 +1064,9 @@ efeitos colaterais.
 
 Tudo além de tipos primário é mutável.
 
-Leitura: <https://medium.com/trainingcenter/programa%C3%A7%C3%A3o-funcional-para-iniciantes-9e2beddb5b43>
+[Programação funcional para iniciantes](https://medium.com/trainingcenter/programa%C3%A7%C3%A3o-funcional-para-iniciantes-9e2beddb5b43)
 
-## Closures
+## 21 - Closures
 
 Um closure (fechamento) é uma função que se "lembra" do ambiente — ou escopo léxico — em que ela foi criada.
 
@@ -1080,7 +1084,7 @@ init();
 
 A função `init()` cria uma variável local chamada `name`, e depois define uma função chamada `displayName()`. `displayName()` é uma função aninhada (_um closure_) — ela é definida dentro da função init(), e está disponível apenas dentro do corpo daquela função. Diferente de `init()`, `displayName()` não tem variáveis locais próprias, e ao invés disso reusa a variável name declarada na função pai.
 
-## High Order Functions (Funções de alta ordem) HOF
+## 22 - High Order Functions (Funções de alta ordem) HOF
 
 São funções que podem receber outras funções como argumento ou que retornam funções. Ex.: callback
 
@@ -1091,7 +1095,7 @@ function mathOrder(num1, num2, op) {
 console.log(mathOperator(1, 2, (num1, num2) => num1 + num2));
 ```
 
-## Recursion (Recursão)
+## 23 - Recursion (Recursão)
 
 A recursão é simplesmente quando uma função chama ela mesma.
 
@@ -1136,9 +1140,9 @@ contagem(5); // 1 2 3 4 5
 
 > A recursão faz mais sentido para no paradigma funcional.
 
-## Collections (Coleções)
+## 24 - Collections (Coleções)
 
-Objetos interaveis, atravez de construtores como `Set()` e o `Map()`.
+Objetos interaveis, através de construtores como `Set()` e o `Map()`.
 
 ### Set
 
@@ -1252,7 +1256,7 @@ totalGenerator.next().value; // 3
 totalGenerator.next().value; // undefined
 ```
 
-## Promises (Promessas)
+## 25 - Promises (Promessas)
 
 Promise é um objeto usado para processamento assíncrono. Um `Promise` (de "promessa") representa um valor que pode estar disponível agora, no futuro ou nunca.
 
@@ -1332,7 +1336,7 @@ Saída:
 1) Promise fulfilled (Async code terminated)
 ```
 
-## async/await
+## 26 - async/await
 
 Adições mais recentes à linguagem JavaScript são funções assíncronas e a `await` palavra - chave, parte da chamada edição JavaScript do ECMAScript 2017. Esses recursos agem basicamente como açúcar sintático além das promessas, facilitando a escrita e a leitura de códigos assíncronos. Eles fazem com que o código assíncrono pareça mais com o código síncrono, portanto vale a pena aprender.
 
@@ -1628,7 +1632,7 @@ async function timeTest() {
 }
 ```
 
-## Estrutura dos dados
+## 27 - Data Structures (Estrutura dos dados)
 
 Estruturas de dados _(Data Structures)_ é o nome dado a organização de dados e algoritmos de forma coerente e racional de modo a otimizar o seu uso. De acordo com o modo como um conjunto de dados são organizados e como as operações que são efetuadas sobre estes dados pode-se solucionar de forma simples problemas extremamente complexos.
 
@@ -1893,6 +1897,7 @@ describe("Linked List", () => {
 });
 
 mocha.run();
+mocha.run();
 ```
 
 ### Tree (Árvore)
@@ -2031,7 +2036,7 @@ describe("Binary Search Tree", () => {
 mocha.run();
 ```
 
-## Expensive Operation and Big O Notation
+## 28 - Expensive Operation and Big O Notation
 
 Em suma, Big O é a pior curva de crescimento de cenários para a complexidade de um algoritmo. A notação Big O vem duas vezes: Complexidade do tempo e complexidade espacial.
 
@@ -2175,7 +2180,9 @@ Saída:
 ["a", "c", "d", "e", "q", "r", "s", "w", "x", "z"]
 ```
 
-## Expensive Operation and Big O Notation (Herança, Polimorfismo e Reutilização de Código)
+## 29 - Algorithms
+
+## 30 - Inheritance, Polymorphism and Code Reuse (Herança, Polimorfismo e Reutilização de Código)
 
 ### Herança
 
@@ -2311,7 +2318,7 @@ const filho3 = new neto("roxo");
 filho3.print(); // A cor é roxo e muito bonita...
 ```
 
-## Design Patterns Module e Prototype
+## 31 - Design Patterns Module e Prototype
 
 Design Patterns ou padrões de projetos são soluções generalistas para problemas recorrentes durante o desenvolvimento de um software. Não se trata de um framework ou um código pronto, mas de uma definição de alto nível de como um problema comum pode ser solucionado.
 
@@ -2636,7 +2643,7 @@ one.setName("Akash");
 two.getName(); //"Akash"
 ```
 
-## Partial Applications, Currying, Compose and Pipe
+## 32 - Partial Applications, Currying, Compose and Pipe
 
 ### Partial Applications (Aplicações parciais)
 
@@ -2670,7 +2677,7 @@ console.log(listaTalvez("azul", "amarelo", "verde")); // azul, amarelo talvez ve
 
 Currying é um processo para reduzir funções de mais de um argumento para funções de um argumento com a ajuda de cálculo lambda.
 
-Na pática é possível transformar uma função em várias funções que recebem como argumento outras funções. Nos permitindo criar várias funções, apartir de uma função base.
+Na pática é possível transformar uma função em várias funções que recebem como argumento outras funções. Nos permitindo criar várias funções, a partir de uma função base.
 
 Exemplo 1:
 
@@ -2689,7 +2696,7 @@ console.log(dragao2("Mushu")("pequeno")("fogo")); // "Mushu é um dragão pequen
 
 const mushu = dragao2("Mushu");
 console.log(mushu("grande")("gelo")); // "Mushu é um dragão grande e cospe gelo"
-console.log(mushu("pesqueno")("fogo")); // "Mushu é um dragão pesqueno e cospe fogo"
+console.log(mushu("pequeno")("fogo")); // "Mushu é um dragão pequeno e cospe fogo"
 
 const mushuPequeno = mushu("pequeno");
 console.log(mushuPequeno("agua")); // "Mushu é um dragão pequeno e cospe agua"
@@ -2769,7 +2776,7 @@ const resultado = incrementaEDobra(3); // pipe()
 console.log(resultado); // 8
 ```
 
-## Clean Code
+## 33 - Clean Code
 
 [Clean-code-javascript](https://github.com/ryanmcdermott/clean-code-javascript#introduction)
 
