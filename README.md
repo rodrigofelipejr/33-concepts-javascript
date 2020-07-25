@@ -253,15 +253,35 @@ Formas de declarar uma IFEE:
 O namespace organiza o código em pequenos grupos, impedindo que haja a colisão com outros métodos de outras libs.
 
 ```javascript
-const dados = (function(){ // dados é namespace
+const dados = (function () { // dados é namespace
 let contador = 0 // private - escopo de bloco
 return{
-    incrementar: fucntion(){ // método
+    incrementar: fucntion() { // método
         contador += 1
         return contador
     }
 }
 }()) // executada imediatamente
+```
+
+```javascript
+var MYNS = MYNS || {};
+
+MYNS.subns = (function () {
+  function privateMethod() {
+    // Do private stuff, or build internal.
+    return "Message";
+  }
+
+  return {
+    someProperty: "prop value",
+    publicMethod: function () {
+      return privateMethod() + " stuff";
+    },
+  };
+})();
+
+console.log(MYNS.subns.publicMethod());
 ```
 
 ## Modules
@@ -1237,7 +1257,7 @@ totalGenerator.next().value; // undefined
 Promise é um objeto usado para processamento assíncrono. Um `Promise` (de "promessa") representa um valor que pode estar disponível agora, no futuro ou nunca.
 
 ```javascript
-new Promise(/* executor */ function(resolve, reject) { ... });
+new Promise(/* executor */ function (resolve, reject) { ... });
 ```
 
 Estados de uma `Promise`:
@@ -1565,7 +1585,7 @@ async function fetchAndDecode(url, type) {
 ```javascript
 function timeoutPromise(interval) {
   return new Promise((resolve, reject) => {
-    setTimeout(function(){
+    setTimeout(function () {
       resolve("done");
     }, interval);
   });
@@ -2165,23 +2185,23 @@ Herdando seus atributos e métodos.
 Isso ajuda você a escrever menos códigos repetitivos, por exemplo:
 
 ```javascript
-function funcao(){
+function funcao() {
   return this.valor;
 }
 
 const objeto1 = {
   getValor: funcao,
-  valor: 30
+  valor: 30,
 };
 
 const objeto2 = {
   getValor: funcao,
-  valor: 20
+  valor: 20,
 };
 
 const objeto3 = {
   getValor: funcao,
-  valor: 10
+  valor: 10,
 };
 ```
 
@@ -2189,10 +2209,10 @@ A partir de apenas um objeto podemos extender suas funções para outros objetos
 
 ```javascript
 const pai = {
-  getValor: function funcao(){
+  getValor: function funcao() {
     return this.valor;
   },
-  valor:10
+  valor: 10,
 };
 
 const filho = Object.create(pai);
@@ -2211,18 +2231,18 @@ Polimorfismo é quando queremos que os filhos se comportem diferente dos seus pa
 
 ```javascript
 const pai = {
-  getValor: function funcao(){
+  getValor: function funcao() {
     return this.valor;
   },
-  valor:10
+  valor: 10,
 };
 
-function outraFuncao(){
+function outraFuncao() {
   return this.valor + this.valor;
 }
 
 const filho = Object.create(pai);
-filho.getValor = function outraFuncao(){
+filho.getValor = function outraFuncao() {
   return this.valor + 5;
 };
 
@@ -2236,18 +2256,18 @@ Melhorando...
 
 ```javascript
 const pai = {
-  getValor: function funcao(){
+  getValor: function funcao() {
     return this.valor;
   },
-  valor:10
+  valor: 10,
 };
 
-function outraFuncao(){
+function outraFuncao() {
   return this.valor + this.valor;
 }
 
 const filho = Object.create(pai);
-filho.getValor = function outraFuncao(){
+filho.getValor = function outraFuncao() {
   return pai.getValor.call(this) + 5;
 };
 
@@ -2267,24 +2287,351 @@ class pai {
     this.cor = cor;
   }
   print() {
-    console.log(`A cor é ${this.cor}...`)
+    console.log(`A cor é ${this.cor}...`);
   }
 }
 
-const filho1 = new pai('azul')
-filho1.print() // A cor é azul...
+const filho1 = new pai("azul");
+filho1.print(); // A cor é azul...
 
-class filho extends pai{}
+class filho extends pai {}
 
-const filho2 = new filho('amarela')
-filho2.print() // A cor é amarela...
+const filho2 = new filho("amarela");
+filho2.print(); // A cor é amarela...
 
-class neto extends filho { // herança
-  print(){ // polimorfismo e override
-    console.log(`A cor é ${this.cor} e muito bonita...`)
+class neto extends filho {
+  // herança
+  print() {
+    // polimorfismo e override
+    console.log(`A cor é ${this.cor} e muito bonita...`);
   }
 }
 
-const filho3 = new neto('roxo')
-filho3.print() // A cor é roxo e muito bonita...
+const filho3 = new neto("roxo");
+filho3.print(); // A cor é roxo e muito bonita...
+```
+
+## Design Patterns Module e Prototype
+
+Design Patterns ou padrões de projetos são soluções generalistas para problemas recorrentes durante o desenvolvimento de um software. Não se trata de um framework ou um código pronto, mas de uma definição de alto nível de como um problema comum pode ser solucionado.
+
+Design patterns são modelos que já foram utilizados e testados anteriormente, portanto podem representar um bom ganho de produtividade para os desenvolvedores.
+
+Seu uso também contribui para a organização e manutenção de projetos, já que esses padrões se baseiam em baixo acoplamento entre as classes e padronização do código.
+
+Além disso, com a padronização dos termos, as discussões técnicas são facilitadas. É mais fácil falar o nome de um design pattern em vez de ter que explicar todo o seu comportamento.
+
+### Modules
+
+### Prototype
+
+Podemos pensar no padrão do prototype como sendo baseado na herança prototípica, onde criamos objetos que atuam como prototype para outros objetos.
+
+O próprio objeto prototype é efetivamente usado como um blueprint para cada objeto que o construtor cria. Se o prototype da função construtora usada contiver uma propriedade chamada name, por exemplo `(exemplo 2)`, cada objeto criado pelo mesmo construtor também terá essa mesma propriedade.
+
+Exemplo 1:
+
+```javascript
+const Carro = {
+  tracao: "4x4",
+  ligar() {
+    return "ligou";
+  },
+};
+
+const meuCarro = Object.create(Carro, { dono: { value: "Rodrigo" } });
+
+Carro.__proto__.desligar = function () {
+  return "desligou";
+};
+
+console.log(meuCarro.ligar());
+console.log(meuCarro.desligar());
+```
+
+Exemplo 2:
+
+```javascript
+function person(firstName, lastName) {
+  this.firstName = firstName;
+
+  this.lastName = lastName;
+}
+
+person.prototype.fullName = function () {
+  return this.firstName + " " + this.lastName;
+};
+
+var person1 = new person("Akash", "Pal");
+var person2 = new person("Black", "Panther");
+
+person1; //{firstName: "Akash", lastName: "Pal"}
+person2; //{firstName: "Black", lastName: "Panther"}
+
+person1.fullName(); //"Akash Pal"
+person2.fullName(); //"Black Panther"
+```
+
+Exemplo 3:
+
+```javascript
+const MyCar {
+  name: 'Ford Escort',
+  drive: function () {
+    console.log("Weeee. I'm driving!");
+  },
+  panic: function () {
+    console.log("Wait. How do you stop this thing?");
+  }
+}
+
+// use Object.create to instantiate a new car
+const yourCar = Object.create(myCar);
+
+// now we can see that one is a prototype of the other
+console.log(yourCar.name);
+
+```
+
+### Observer
+
+O Observer é um padrão de design onde um objeto (conhecido como sujeito) mantém uma lista de objetos dependendo dele (observers), notificando-os automaticamente de quaisquer alterações no estado.
+
+#### Subject
+
+Mantém uma lista de `observers`, facilita a adição ou remoção de `observers`.
+
+#### Observer
+
+Fornece uma interface de atualização para objetos que precisam ser notificados das alterações de estado de um `subject`.
+
+#### ConcreteSubject
+
+Transmite notificações aos `observers` sobre mudanças de estado, armazena o estado dos `ConcreteObservers`.
+
+#### ConcreteObserver
+
+Armazena uma referência ao `ConcreteSubject`, implementa uma interface de atualização para o `observer` para garantir que o estado seja consistente com o do `subject`.
+
+Exemplo 1:
+
+```javascript
+class Subject {
+  constructor() {
+    this.observadores = [];
+  }
+
+  assinarObservavel(observador) {
+    this.observadores.push(observador);
+  }
+
+  notificarObservador(observador) {
+    const index = this.observadores.indexOf(observador);
+    if (index > -1) this.observadores[index].notificar(index);
+    else console.log(`Este observador não existe`);
+  }
+  notificarTodosObservadores() {
+    this.observadores.forEach((observador, index) => observador.notificar(index));
+  }
+}
+
+class Observer {
+  notificar(index) {
+    console.log(`Observador ${index} foi notificado`);
+  }
+}
+
+const subject = new Subject();
+const observador0 = new Observer();
+const observador1 = new Observer();
+const observador2 = new Observer();
+const observador3 = new Observer();
+
+subject.assinarObservavel(observador0);
+subject.assinarObservavel(observador1);
+subject.assinarObservavel(observador2);
+subject.assinarObservavel(observador3);
+
+subject.notificarObservador(observador1);
+subject.notificarTodosObservadores();
+```
+
+Exemplo 2:
+
+```javascript
+// html
+<input type="text" class="js-input" placeholder="type something here">
+<button class="js-subscribe-p1">Subscribe</button>
+<button class="js-unsubscribe-p1">Unsubscribe</button>
+<p class="js-p1"></p>
+<button class="js-subscribe-p2">Subscribe</button>
+<button class="js-unsubscribe-p2">Unsubscribe</button>
+<p class="js-p2"></p>
+<button class="js-subscribe-p3">Subscribe</button>
+<button class="js-unsubscribe-p3">Unsubscribe</button>
+<p class="js-p3"></p>
+
+// script
+
+class Observable {
+  constructor() {
+    this.observers = [];
+  }
+
+  subscribe(f) {
+    this.observers.push(f);
+  }
+
+  unsubscribe(f) {
+    this.observers = this.observers.filter(subscriber => subscriber !== f);
+  }
+
+  notify(data) {
+    this.observers.forEach(observer => observer(data));
+  }
+}
+
+const input = document.querySelector('.js-input');
+
+const p1 = document.querySelector('.js-p1');
+const p2 = document.querySelector('.js-p2');
+const p3 = document.querySelector('.js-p3');
+
+const subscribeP1 = document.querySelector('.js-subscribe-p1');
+const subscribeP2 = document.querySelector('.js-subscribe-p2');
+const subscribeP3 = document.querySelector('.js-subscribe-p3');
+
+const unsubscribeP1 = document.querySelector('.js-unsubscribe-p1');
+const unsubscribeP2 = document.querySelector('.js-unsubscribe-p2');
+const unsubscribeP3 = document.querySelector('.js-unsubscribe-p3');
+
+const updateP1 = text => p1.textContent = text;
+const updateP2 = text => p2.textContent = text;
+const updateP3 = text => p3.textContent = text;
+
+const headingsObserver = new Observable();
+headingsObserver.subscribe(updateP1);
+headingsObserver.subscribe(updateP2);
+headingsObserver.subscribe(updateP3);
+
+subscribeP1.addEventListener('click', () => headingsObserver.subscribe(updateP1));
+unsubscribeP1.addEventListener('click', () => headingsObserver.unsubscribe(updateP1));
+subscribeP2.addEventListener('click', () => headingsObserver.subscribe(updateP2));
+unsubscribeP2.addEventListener('click', () => headingsObserver.unsubscribe(updateP2));
+subscribeP3.addEventListener('click', () => headingsObserver.subscribe(updateP3));
+unsubscribeP3.addEventListener('click', () => headingsObserver.unsubscribe(updateP3));
+
+input.addEventListener('keyup', e => {
+  headingsObserver.notify(e.target.value);
+});
+```
+
+### Singleton
+
+O padrão Singleton é conhecido, pois restringe a instanciação de uma classe a um único objeto. classicamente, o padrão Singleton pode ser implementado criando uma classe com um método que cria uma nova instância da classe, caso não exista. No caso de uma instância já existir, ela simplesmente retorna uma referência a esse objeto.
+
+Singletons diferem de classes estáticas (ou objetos), pois podemos atrasar sua inicialização, geralmente porque eles exigem algumas informações que podem não estar disponíveis durante o tempo de inicialização. Eles não fornecem uma maneira de código que não tem conhecimento de uma referência anterior a eles para recuperá-los facilmente. Isso ocorre porque não é o objeto ou a "classe" retornada por um Singleton, é uma estrutura. Pense em como as variáveis ​​fechadas não são realmente fechamentos - o escopo da função que fornece o fechamento é o fechamento.
+
+Em JavaScript, os Singletons servem como um espaço para nome de recurso compartilhado, que isola o código de implementação do espaço para nome global, de modo a fornecer um único ponto de acesso para funções.
+
+Podemos implementar um Singleton da seguinte maneira:
+
+Exemplo 1:
+
+```javascript
+const impressora = (function () {
+  let instanciaDaImpressora;
+
+  function criar() {
+    function imprimir() {
+      console.log("Imprimindo documento");
+    }
+
+    function ligar() {
+      console.log("Ligando impressora");
+    }
+
+    return { imprimir, ligar };
+  }
+
+  return {
+    pegarInstancia: function () {
+      if (!instanciaDaImpressora) {
+        instanciaDaImpressora = criar();
+      }
+
+      return instanciaDaImpressora;
+    },
+  };
+})();
+
+const impressoraDaEmpresa1 = impressora.pegarInstancia();
+const impressoraDaEmpresa2 = impressora.pegarInstancia();
+
+impressoraDaEmpresa1.ligar();
+console.log(impressoraDaEmpresa1);
+console.log(impressoraDaEmpresa1 === impressoraDaEmpresa2);
+```
+
+Saída:
+
+```javascript
+"Ligando impressora"
+
+[object Object] {
+  imprimir: function imprimir() {
+      window.runnerWindow.proxyConsole.log("Imprimindo documento");
+    },
+  ligar: function ligar() {
+      window.runnerWindow.proxyConsole.log("Ligando impressora");
+    }
+}
+
+true
+```
+
+Exemplo 2:
+
+```javascript
+var singleton = (function () {
+  var instance;
+
+  function init() {
+    var name;
+
+    this.setName = function (name) {
+      this.name = name;
+    };
+
+    this.getName = function () {
+      return this.name;
+    };
+
+    return {
+      setName: setName,
+      getName: getName,
+    };
+  }
+
+  function getInstance() {
+    if (!instance) {
+      instance = init();
+    }
+
+    return instance;
+  }
+
+  return {
+    getInstance: getInstance,
+  };
+})();
+
+var one = singleton.getInstance();
+var two = singleton.getInstance();
+
+//the two instance are same
+one == two; //true
+
+one.setName("Akash");
+two.getName(); //"Akash"
 ```
